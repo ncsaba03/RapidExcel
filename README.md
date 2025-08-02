@@ -1,6 +1,6 @@
 ﻿# ExcelImporter
 
-A high-performance, zero-allocation Excel import/export library for .NET 8, designed for processing large datasets efficiently using modern C# features.
+A high-performance  Excel import/export library for .NET 8, designed for processing large datasets efficiently using modern C# features.
 
 ## 🚀 Performance
 
