@@ -1,5 +1,4 @@
-﻿using System.Collections.Frozen;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using BankImport.Model;
 using ExcelImport.Utils;
 
@@ -8,7 +7,7 @@ namespace BankImport.Parsers;
 /// <summary>
 /// Builder for creating transaction details.
 /// </summary>
-public readonly ref struct TransactionDetailBuilder
+public class TransactionDetailBuilder
 {
     private readonly TransactionDetail _detail;
 
@@ -124,7 +123,7 @@ public readonly ref struct TransactionDetailBuilder
         builder.SetCardAndDate(enumerator.Current);
 
         if (!enumerator.MoveNext()) throw new FormatException("Amount and currency is missing");
-        builder.SetAmountAndCurrency(enumerator.Current,transaction);
+        builder.SetAmountAndCurrency(enumerator.Current, transaction);
 
         if (!enumerator.MoveNext()) throw new FormatException("No additional data");
         builder.SetAdditionalDataAndCity(enumerator.Current);
@@ -174,7 +173,7 @@ public readonly ref struct TransactionDetailBuilder
     /// <param name="line"></param>
     private void SetCardAndDate(ReadOnlySpan<char> line)
     {
-        _detail.CardNumber = string.IsInterned(line[..19].ToString()) ?? string.Intern(line[..19].ToString()) ;
+        _detail.CardNumber = string.IsInterned(line[..19].ToString()) ?? string.Intern(line[..19].ToString());
         _detail.Date = DateTime.ParseExact(line[20..35], "yyyyMMdd HHmmss", null);
     }
 
@@ -183,11 +182,11 @@ public readonly ref struct TransactionDetailBuilder
     /// </summary>
     /// <param name="line"></param>
     /// <exception cref="ArgumentException"></exception>
-    private void SetAmountAndCurrency(ReadOnlySpan<char> line ,BankTransaction transaction)
+    private void SetAmountAndCurrency(ReadOnlySpan<char> line, BankTransaction transaction)
     {
-        
+
         _detail.Currency = transaction.Currency;
-        _detail.Amount = -1 * transaction.Amount;        
+        _detail.Amount = -1 * transaction.Amount;
         _detail.IsExpense = transaction.Amount < 0;
         _detail.IsIncome = false;
     }
