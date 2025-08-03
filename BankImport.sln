@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelImport.Test", "ExcelImport.Test\ExcelImport.Test.csproj", "{93A1010B-AFE5-4CB5-A281-0E25EEAF3ABC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelImport.Benchmark", "ExcelImport.Benchmark\ExcelImport.Benchmark.csproj", "{B6E1B91F-E9B9-436D-B646-FA9AFF41A85A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{93A1010B-AFE5-4CB5-A281-0E25EEAF3ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93A1010B-AFE5-4CB5-A281-0E25EEAF3ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93A1010B-AFE5-4CB5-A281-0E25EEAF3ABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6E1B91F-E9B9-436D-B646-FA9AFF41A85A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6E1B91F-E9B9-436D-B646-FA9AFF41A85A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6E1B91F-E9B9-436D-B646-FA9AFF41A85A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6E1B91F-E9B9-436D-B646-FA9AFF41A85A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

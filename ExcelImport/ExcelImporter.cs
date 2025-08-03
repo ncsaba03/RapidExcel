@@ -22,20 +22,19 @@ public class ExcelImporter
         var properties = PropertyCache.GetCachedProperties(typeof(T));
         var context = new ExcelImportContext(filePath);
 
-        return ImportCore<T>(context, properties, headerRowIndex);
+        return ImportCore<T>(context, properties.ToDictionary(t => t.ColumnIdentifier), headerRowIndex);
     }
 
     /// <summary>
     /// Imports the data from the worksheet.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="worksheet"></param>
-    /// <param name="attributes"></param>
-    /// <param name="sharedStringTable"></param>
+    /// <typeparam name="T"></typeparam> 
+    /// <param name="context"></param>
+    /// <param name="attributes"></param>    
     /// <param name="headerRowIndex"></param>
     /// <returns></returns>
     /// <exception cref="ImportException"></exception>
-    private IEnumerable<T> ImportCore<T>(ExcelImportContext context, List<PropertyImportInfo> attributes, uint headerRowIndex)
+    private IEnumerable<T> ImportCore<T>(ExcelImportContext context, IReadOnlyDictionary<string, PropertyImportInfo> attributes, uint headerRowIndex)
         where T : new()
     {
         var headerMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -44,11 +43,9 @@ public class ExcelImporter
         using var reader = OpenXmlReader.Create(context.WorksheetPart);
         while (reader.Read())
         {
-            if (reader.ElementType == typeof(Row) && reader.IsStartElement )
+            if (reader.ElementType == typeof(Row) && reader.IsStartElement)
             {
-                var row = reader.LoadCurrentElement() as Row;
-
-                if (row == null || (row.RowIndex?.Value ?? headerRowIndex) < headerRowIndex)
+                if (reader.LoadCurrentElement() is not Row row || (row.RowIndex?.Value ?? headerRowIndex) < headerRowIndex)
                 {
                     continue;
                 }
@@ -72,45 +69,48 @@ public class ExcelImporter
                         continue;
                     }
 
-                    foreach (var prop in attributes)
+                    if (!attributes.TryGetValue(headerName, out var prop))
                     {
-                        if (!headerName.Equals(prop.ColumnIdentifier, StringComparison.OrdinalIgnoreCase))
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
 
-                        if (prop.Property.PropertyType == typeof(string))
-                        {
-                            if (prop.Required && value.AsSpan().IsEmpty)
-                            {
-                                var message = $"{prop.ColumnIdentifier} is required!";
-                                throw new ImportException(cell.CellReference.Value ?? string.Empty, message);
-                            }
+                    if (!headerName.Equals(prop.ColumnIdentifier, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
 
-                            prop.Property.SetValue(item, value);
-
-                            continue;
-                        }
-
-                        object? convertedValue = null;
-
-                        if (prop.TypeConverter is not null)
-                        {
-                            convertedValue = prop.TypeConverter.Convert(value);
-                        }
-
-                        if (prop.Required && convertedValue is null)
+                    if (prop.Property.PropertyType == typeof(string))
+                    {
+                        if (prop.Required && value.AsSpan().IsEmpty)
                         {
                             var message = $"{prop.ColumnIdentifier} is required!";
                             throw new ImportException(cell.CellReference.Value ?? string.Empty, message);
                         }
 
-                        prop.Property.SetValue(item, convertedValue);
+                        prop.Property.SetValue(item, value);
+
+                        continue;
                     }
+
+                    object? convertedValue = null;
+
+                    if (prop.TypeConverter is not null)
+                    {
+                        convertedValue = prop.TypeConverter.Convert(value);
+                    }
+
+                    if (prop.Required && convertedValue is null)
+                    {
+                        var message = $"{prop.ColumnIdentifier} is required!";
+                        throw new ImportException(cell.CellReference.Value ?? string.Empty, message);
+                    }
+
+                    prop.Property.SetValue(item, convertedValue);
+
                 }
 
                 yield return item;
-            }            
+            }
         }
 
         context?.Dispose();

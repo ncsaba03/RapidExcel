@@ -1,6 +1,6 @@
 ﻿# ExcelImporter
 
-A high-performance  Excel import/export library for .NET 8, designed for processing large datasets efficiently using modern C# features.
+A high-performance lightweight Excel import/export library for .NET 8, designed for processing large datasets efficiently using modern C# features.
 
 ## 🚀 Performance
 
@@ -116,13 +116,41 @@ public class TransactionTypeConverter : TypeConverter<TransactionType, string>
 
 ## 📊 Performance Benchmarks
 
-Tested on Intel i7-11700K, .NET 8 Release build:
+### Real-World Performance (445,060 records)
 
-| Operation | Rows | Time | Rows/sec |
-|-----------|------|------|----------|
-| Import | 445,060 | 5.5s | ~80,400 |
-| Export | 445,060 | 4.9s | ~90,800 |
-| **Total** | **445,060** | **10.4s** | **~85,600** |
+Quick performance overview using `Stopwatch` timing:
+
+| Operation | Time | Rows/sec | Description |
+|-----------|------|----------|-------------|
+| **Import** | 5.5s | **80,700** | Pure Excel reading |
+| **Export** | 4.7s | **94,500** | Excel file generation |
+| **Round-trip** | 10.2s | **43,600** | Complete import + export cycle |
+### Detailed BenchmarkDotNet Analysis
+
+BenchmarkDotNet measured on **Intel i7-11700K @ 3.60GHz**, **.NET 8.0**, **Release build**:
+
+```
+BenchmarkDotNet v0.15.2, Windows 11
+11th Gen Intel(R) Core(TM) i7-11700K @ 3.60GHz (3.60 GHz)
+Runtime=.NET 8.0  LaunchCount=2  WarmupCount=1  
+```
+
+| Method                       | Mean    | Error    | StdDev   | Median  | Gen0        | Gen1      | Gen2      | Allocated |
+|----------------------------- |--------:|---------:|---------:|--------:|------------:|----------:|----------:|----------:|
+| ImportTest                   | 3.449 s | 0.0117 s | 0.0160 s | 3.440 s | 247000.0000 | 1000.0000 |         - |   1.93 GB |
+| ImportTestWithParsing        | 3.573 s | 0.0098 s | 0.0138 s | 3.578 s | 281000.0000 | 1000.0000 |         - |   2.19 GB |
+| ExportTestWithMulitpleSheets | 4.301 s | 0.0199 s | 0.0299 s | 4.293 s | 312000.0000 | 1000.0000 | 1000.0000 |    2.8 GB |
+| ExportTest                   | 4.398 s | 0.0436 s | 0.0596 s | 4.359 s | 312000.0000 | 1000.0000 | 1000.0000 |    2.8 GB |
+
+#### Performance Summary
+
+| Operation | Rows/sec | Memory | Gen2 | Description |
+|-----------|----------|--------|------|-------------|
+| **Import Only** | **129,000** | 1.93 GB | 0 | Zero-allocation parsing |
+| **Import + Parse** | **124,600** | 2.19 GB | 0 | Complex financial extraction |
+| **Export Multi-Sheet** | **103,500** | 2.80 GB | 1K | Monthly sheets organization |
+| **Export Single** | **101,200** | 2.80 GB | 1K | Single large worksheet |
+
 
 ## 🏗️ Architecture
 
@@ -220,5 +248,4 @@ ExcelImporter/
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
 **Built with ❤️ for performance and efficiency**

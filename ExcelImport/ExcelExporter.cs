@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Runtime.InteropServices;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -44,13 +45,12 @@ public class ExcelExporter
     {
         using var stream = new FileStream(filePath, FileMode.Create);
         using var spreadsheet = SpreadsheetDocument.Create(stream, SpreadsheetDocumentType.Workbook);
-        ExcelPackageHelper.GenerateWorkbook(spreadsheet);
-        var properties = PropertyCache.GetCachedProperties(typeof(T));
+        ExcelPackageHelper.GenerateWorkbook(spreadsheet);        
         uint index = 1;
         foreach (var (sheetName, sheetItems) in items)
         {
             WorksheetPart worksheetPart = spreadsheet.WorkbookPart!.AddNewPart<WorksheetPart>();
-            ExportCoreWithWriter(sheetItems, worksheetPart, properties);
+            ExportCoreWithWriter(sheetItems, worksheetPart, CollectionsMarshal.AsSpan(PropertyCache.GetCachedProperties(typeof(T))));
             AddWorksheet(spreadsheet, worksheetPart, sheetName, index++);
         }
     }
@@ -78,9 +78,21 @@ public class ExcelExporter
         using var spreadsheet = SpreadsheetDocument.Create(stream, SpreadsheetDocumentType.Workbook);
         ExcelPackageHelper.GenerateWorkbook(spreadsheet);
         WorksheetPart worksheetPart = spreadsheet.WorkbookPart!.AddNewPart<WorksheetPart>();
-        ExportCoreWithWriter(items, worksheetPart, PropertyCache.GetCachedProperties(typeof(T)));
+        ExportCoreWithWriter(items, worksheetPart, CollectionsMarshal.AsSpan(PropertyCache.GetCachedProperties(typeof(T))));
         AddWorksheet(spreadsheet, worksheetPart, "Export", 1);
 
+    }
+
+    /// <summary>
+    /// Export the given items to the given file with a writer
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="items"></param>
+    /// <param name="fileName"></param>
+    public void ExportWithWriter<T>(List<T> items, string fileName) where T : class
+    {
+        using var stream = new FileStream(fileName, FileMode.Create);
+        ExportWithWriter(items, stream);
     }
 
     /// <summary>
@@ -109,12 +121,12 @@ public class ExcelExporter
     /// <returns></returns>
     private SheetRange ExportCore<T>(List<T> items, SheetData sheetData) where T : class
     {
-        var properties = PropertyCache.GetCachedProperties(typeof(T));
+        var properties = CollectionsMarshal.AsSpan(PropertyCache.GetCachedProperties(typeof(T)));
 
         WriteHeader(sheetData, properties);
         WriteData(sheetData, items, properties);
 
-        uint columns = (uint)properties.Count;
+        uint columns = (uint)properties.Length;
         var rows = items.Count + 1;
         var sheetRange = new SheetRange("A1", $"{SheetHelper.GetColumnName(columns)}{rows}");
         return sheetRange;
@@ -125,11 +137,11 @@ public class ExcelExporter
     /// </summary>
     /// <param name="sheetData"></param>
     /// <param name="properties"></param>
-    private void WriteHeader(SheetData sheetData, IReadOnlyList<PropertyImportInfo> properties)
+    private void WriteHeader(SheetData sheetData, ReadOnlySpan<PropertyImportInfo> properties)
     {
         var row = new Row { RowIndex = 1 };
 
-        for (int i = 0; i < properties.Count; i++)
+        for (int i = 0; i < properties.Length; i++)
         {
             var prop = properties[i];
             var cell = new Cell
@@ -152,14 +164,14 @@ public class ExcelExporter
     /// <param name="items"></param>
     /// <param name="properties"></param>
     /// <exception cref="ImportException"></exception>
-    private void WriteData<T>(SheetData sheetData, List<T> items, IReadOnlyList<PropertyImportInfo> properties)
+    private void WriteData<T>(SheetData sheetData, List<T> items, ReadOnlySpan<PropertyImportInfo> properties)
     {
         uint rowIndex = 2;
         foreach (var item in items)
         {
             var row = new Row { RowIndex = rowIndex };
 
-            for (int i = 0; i < properties.Count; i++)
+            for (int i = 0; i < properties.Length; i++)
             {
                 var prop = properties[i];
                 var value = prop.Property.GetValue(item);
@@ -276,18 +288,18 @@ public class ExcelExporter
     private void ExportCoreWithWriter<T>(
     List<T> items,
     WorksheetPart worksheetPart,
-    IReadOnlyList<PropertyImportInfo> properties
+    ReadOnlySpan<PropertyImportInfo> properties
     ) where T : class
     {
         using var writer = OpenXmlWriter.Create(worksheetPart);
         writer.WriteStartElement(new Worksheet());
-        writer.WriteStartElement(new SheetDimension { Reference = $"A1:{SheetHelper.GetColumnName((uint)properties.Count)}{items.Count + 1}" });
+        writer.WriteStartElement(new SheetDimension { Reference = $"A1:{SheetHelper.GetColumnName((uint)properties.Length)}{items.Count + 1}" });
         writer.WriteEndElement(); // SheetDimension
         writer.WriteStartElement(new SheetData());
 
         // Header
         writer.WriteStartElement(new Row { RowIndex = 1 });
-        for (int i = 0; i < properties.Count; i++)
+        for (int i = 0; i < properties.Length; i++)
         {
             var colRef = new SheetCell(SheetHelper.GetColumnName((uint)i + 1), 1).ToString();
             writer.WriteStartElement(new Cell
@@ -306,7 +318,7 @@ public class ExcelExporter
         {
             writer.WriteStartElement(new Row { RowIndex = rowIndex });
 
-            for (int i = 0; i < properties.Count; i++)
+            for (int i = 0; i < properties.Length; i++)
             {
                 var prop = properties[i];
                 var value = prop.Property.GetValue(item);

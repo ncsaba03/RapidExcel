@@ -17,7 +17,7 @@ namespace ExcelImport
         public static List<PropertyImportInfo> GetCachedProperties(Type type)
         {
             return _propertyCache.GetOrAdd(type, t =>
-              t.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+              [.. t.GetProperties(BindingFlags.Public | BindingFlags.Instance)
              .Where(p => p.IsDefined(typeof(ExcelColumnAttribute)))
              .Select(p => new PropertyImportInfo
              {
@@ -28,8 +28,7 @@ namespace ExcelImport
                  Required = p.GetCustomAttribute<ExcelColumnAttribute>()?.Required ?? false
 
              })
-             .OrderBy(p => p.Position)
-             .ToList());
+             .OrderBy(t => t.Position)]);
         }
     }
 }
