@@ -1,4 +1,5 @@
-﻿using BankImport.Parsers;
+﻿using BankImport.Model;
+using BankImport.Parsers;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
 

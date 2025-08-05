@@ -71,7 +71,7 @@ public  struct SheetCell : IEquatable<SheetCell>, IComparable<SheetCell>
     {
         uint currentIndex = (uint)SheetHelper.GetColumnIndex(Col);
         uint newIndex = currentIndex + (uint)count;
-        string newCol = SheetHelper.GetColumnName(newIndex);
+        string newCol = SheetHelper.TransformToCharacterIndex(newIndex);
         return new SheetCell(newCol, Row);
     }
 

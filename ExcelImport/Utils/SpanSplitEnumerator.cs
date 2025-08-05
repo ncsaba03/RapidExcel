@@ -1,8 +1,11 @@
 ﻿namespace ExcelImport.Utils;
 
+/// <summary>
+/// Enumerator for splitting a ReadOnlySpan<char> by a specified separator.
+/// </summary>
 public ref struct SpanSplitEnumerator
 {
-    private ReadOnlySpan<char> _span;
+    private readonly ReadOnlySpan<char> _span;
     private readonly char _separator;
     private int _pos;
 
@@ -25,7 +28,7 @@ public ref struct SpanSplitEnumerator
 
     public bool MoveNext()
     {
-        if (_span.IsEmpty || (uint) _pos > (uint)_span.Length) return false;
+        if (_span.IsEmpty || (uint)_pos > (uint)_span.Length) return false;
 
         int index = _span[_pos..].IndexOf(_separator);
         if (index == -1)

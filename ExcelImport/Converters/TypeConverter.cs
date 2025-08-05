@@ -57,6 +57,12 @@ public abstract class TypeConverter
         return Expression.Lambda<Func<TypeConverter>>(castExpr).Compile();
     }
 
+    /// <summary>
+    /// Gets the type converter for the specified type.
+    /// <para If the converter does not exist, it will create a new one and cache it.</para>
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public static TypeConverter GetConverterOfType(Type type)
     {
         if (_converters.TryGetValue(type, out var converter))

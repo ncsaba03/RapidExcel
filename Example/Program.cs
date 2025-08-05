@@ -1,5 +1,5 @@
-﻿using System.Buffers;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using BankImport.Model;
 using BankImport.Parsers;
 using ExcelImport;
 

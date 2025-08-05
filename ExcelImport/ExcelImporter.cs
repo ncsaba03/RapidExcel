@@ -1,9 +1,13 @@
-﻿using System.Runtime.CompilerServices;
-using DocumentFormat.OpenXml;
+﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using ExcelImport;
 using ExcelImport.Exceptions;
+using ExcelImport.Spreadsheet;
+using ExcelImport.Utils;
 
+/// <summary>
+/// Imports data from an Excel file 
+/// </summary>
 public class ExcelImporter
 {
 
@@ -61,7 +65,7 @@ public class ExcelImporter
 
                 foreach (var cell in row.Elements<Cell>())
                 {
-                    var col = GetColumnPart(cell.CellReference!.Value).ToString();
+                    var col = SheetHelper.GetColumnIndexFromCellReference(cell.CellReference!.Value).ToString();
                     var value = GetCellValue(cell, context.SharedStrings);
 
                     if (!headerMap.TryGetValue(col, out var headerName))
@@ -128,31 +132,12 @@ public class ExcelImporter
 
         foreach (var cell in headerRow.Elements<Cell>())
         {
-            var column = GetColumnPart(cell.CellReference?.Value ?? "").ToString();
+            var column = SheetHelper.GetColumnIndexFromCellReference(cell.CellReference?.Value ?? "").ToString();
             var value = GetCellValue(cell, sharedStrings);
             headers[column] = value;
         }
 
         return headers;
-    }
-
-    /// <summary>
-    /// Gets the column part of the cell reference.
-    /// </summary>
-    /// <param name="cellRef"></param>
-    /// <returns></returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static ReadOnlySpan<char> GetColumnPart(ReadOnlySpan<char> cellRef)
-    {
-        for (int i = 0; i < cellRef.Length; i++)
-        {
-            if (char.IsDigit(cellRef[i]))
-            {
-                return cellRef[..i];
-            }
-        }
-
-        return cellRef;
     }
 
     /// <summary>

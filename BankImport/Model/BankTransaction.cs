@@ -1,6 +1,7 @@
 ﻿using BankImport.Converters;
-using BankImport.Model;
 using ExcelImport.Attributes;
+
+namespace BankImport.Model;
 
 public record BankTransaction
 {    

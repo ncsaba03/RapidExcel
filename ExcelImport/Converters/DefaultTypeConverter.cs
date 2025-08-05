@@ -3,11 +3,22 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ExcelImport.Converters;
 
+/// <summary>
+/// Default type converter for generic types.
+/// </summary>
+/// <typeparam name="T"></typeparam>
 internal class DefaultTypeConverter<T> : TypeConverter<T?, string>
 {
-
+    /// <summary>
+    /// Represents the type of the cell.
+    /// </summary>
     public override CellValues CellType => CellValues.String;
 
+    /// <summary>
+    /// Converts a string value to the specified type T.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public override T? Convert(string value)
     {
         var converter = TypeDescriptor.GetConverter(typeof(T));
@@ -15,6 +26,11 @@ internal class DefaultTypeConverter<T> : TypeConverter<T?, string>
         return convertedValue;
     }
 
+    /// <summary>
+    /// Converts the specified value of type T to a CellValue for Excel.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     public override CellValue? ConvertToCellValue(T? value)
     {
         var converter = TypeDescriptor.GetConverter(typeof(T));

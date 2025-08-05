@@ -1,7 +1,8 @@
-﻿using System.Collections.Frozen;
-using BankImport.Converters;
+﻿using BankImport.Converters;
 using ExcelImport.Attributes;
 using ExcelImport.Converters;
+
+namespace BankImport.Model;
 
 public record TransactionDetail
 {

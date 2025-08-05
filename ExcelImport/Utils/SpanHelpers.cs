@@ -2,6 +2,9 @@
 
 namespace ExcelImport.Utils;
 
+/// <summary>
+/// Utility class for parsing decimal numbers from spans.
+/// </summary>
 public static class SpanHelpers
 {
     /// <summary>

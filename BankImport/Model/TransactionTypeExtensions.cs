@@ -1,4 +1,5 @@
 ﻿namespace BankImport.Model;
+
 public static class TransactionTypeExtensions
 {
     /// <summary>

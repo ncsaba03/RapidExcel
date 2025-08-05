@@ -143,7 +143,7 @@ public class TransactionDetailBuilder
     private static TransactionDetail ParseSimpleDescription(ReadOnlySpan<char> details, BankTransaction bankTransaction)
     {
         var lineEnumerator = details.EnumerateLines();
-        TransactionDetail detail = new TransactionDetail
+        var detail = new TransactionDetail
         {
             Date = bankTransaction.Date,
             Amount = -1 * bankTransaction.Amount,
