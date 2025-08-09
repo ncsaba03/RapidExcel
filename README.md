@@ -1,16 +1,15 @@
 ﻿# ExcelImporter
 
-A high-performance lightweight Excel import/export library for .NET 8, designed for processing large datasets efficiently using modern C# features.
+A high-performance very lightweight Excel import/export library for .NET 8, designed for processing large datasets efficiently using OpenXml and modern C# features.
 
 ## 🚀 Performance
 
 - **80,000+ rows/sec** import speed
 - **90,000+ rows/sec** export speed  
-- **445,000 rows** processed in ~10.4 seconds
+- **445,000 rows** processed in ~10.4 seconds (import + export)
 
 ## ✨ Features
 
-- **Zero-allocation parsing** with `Span<T>` and `ReadOnlySpan<char>`
 - **Custom type converters** with attribute-based configuration
 - **Streaming processing** for memory-efficient large file handling
 - **Thread-safe property caching** with reflection optimization
@@ -38,9 +37,10 @@ dotnet build -c Release
 
 ## 🔧 Quick Start
 
-### Define Your Model
+### Define Your Model 
 
 ```csharp
+//for import
 public class BankTransaction
 {
     [ExcelColumn("DÁTUM")]
@@ -57,6 +57,39 @@ public class BankTransaction
 
     [ExcelColumn("DEVIZANEM")]
     public string Currency { get; set; } = string.Empty;
+}
+
+//for export
+public record TransactionDetail
+{
+    [ExcelColumn("Dátum", position: 1)]
+    public DateTime Date { get; set; }
+
+    [ExcelColumn("Megnevezés", position: 3)]
+    public string? Payee { get; set; }
+
+    [ExcelColumn("KH", position: 2, typeConverter: typeof(CardNumberConverter))]
+    public string? CardNumber { get; set; }
+
+    public string? AccountNumber { get; set; }
+
+    [ExcelColumn("Összeg", typeConverter: typeof(AmountConverter), position: 4)]
+    public decimal Amount { get; set; }
+
+    [ExcelColumn("Deviza", position: 5)]
+    public string Currency { get; set; } = null!;
+
+    public string? TransactionId { get; set; }
+
+    public string? PayerId { get; set; }
+
+    public string? City { get; set; }
+
+    [ExcelColumn("Kiadás", position: 6)]
+    public bool IsExpense { get; set; }
+
+    [ExcelColumn("Jövedelem", position: 7)]
+    public bool IsIncome { get; set; }
 }
 ```
 
@@ -154,19 +187,6 @@ Runtime=.NET 8.0  LaunchCount=2  WarmupCount=1
 
 ## 🏗️ Architecture
 
-### Zero-Allocation Parsing
-
-```csharp
-// Uses ReadOnlySpan<char> for zero-copy string operations
-public static SheetCell Parse(ReadOnlySpan<char> cellString)
-{
-    var cell = cellString.Trim();
-    var col = cell[..colIndex];
-    int row = int.Parse(cell[colIndex..]);
-    return new(col.ToString(), row);
-}
-```
-
 ### Custom Enumerators
 
 ```csharp
@@ -198,7 +218,7 @@ private static Func<TypeConverter> CreateFactory(Type type)
 
 ### Complex Transaction Parsing
 
-The library includes sophisticated parsing for financial data:
+The library includes sophisticated parsing examples for CIB bank account statement financial data.
 
 ```csharp
 // Parses complex bank transaction descriptions
@@ -240,7 +260,9 @@ ExcelImporter/
 │   └── Utils/                # Helper utilities
 ├── BankImport/               # Financial data example
 ├── Example/                  # Usage demonstrations
+├── ExcelImport.Benchmark/    # Project used for benchmark
 └── ExcelImport.Test/         # Unit tests
+
 ```
 
 ## 📄 License
