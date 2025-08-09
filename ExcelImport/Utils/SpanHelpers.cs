@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace ExcelImport.Utils;
 
@@ -7,40 +8,32 @@ namespace ExcelImport.Utils;
 /// </summary>
 public static class SpanHelpers
 {
-    /// <summary>
-    /// Parses a decimal number from a <see cref="ReadOnlySpan{char}"/>. This method is optimized to avoid heap allocations.
+     /// <summary>
+    /// Interns a string if it is safe to do so. A string is considered safe if it is not empty, does not exceed 256 characters, and is less than or equal to 64 characters in length.
     /// </summary>
-    /// <param name="input"></param>
-    /// <param name="result"></param>
+    /// <param name="span"></param>
     /// <returns></returns>
-    public static bool TryParseDecimal(ReadOnlySpan<char> input, out decimal result)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string? InternIfSafe(ReadOnlySpan<char> span)
     {
-        result = default;
-
-        // Check if the input is empty or too long
-        if (input.Length == 0 || input.Length > 36)
-            return false;
-
-        // Check if the input is a valid decimal number
-        if (decimal.TryParse(input, CultureInfo.InvariantCulture, out result))
-            return true;
-
-        // try to remove the thousand separator without allocating on the heap
-        Span<char> buffer = stackalloc char[input.Length];
-        int bufferIndex = 0;
-        bool skipped = false;
-
-        for (int i = 0; i < input.Length; i++)
+        if (span.IsEmpty)
         {
-            if (!skipped && (input[i] == ',' || input[i] == '.'))
-            {
-                skipped = true;
-                continue;
-            }
-
-            buffer[bufferIndex++] = input[i];
+            return null;
         }
 
-        return decimal.TryParse(buffer[..bufferIndex], CultureInfo.InvariantCulture, out result);
+        if (span.Length <= 64)  
+        {
+            Span<char> buffer = stackalloc char[span.Length];
+            span.CopyTo(buffer);
+            return string.Intern(new string(buffer));
+        }
+
+        if (span.Length > 256)  
+        {
+            return null;
+        }
+
+        return string.Intern(span.ToString());
     }
+
 }

@@ -16,7 +16,7 @@ public record TransactionDetail
     /// Payee or sender of the transaction.
     /// </summary>
     [ExcelColumn("Megnevezés", position: 3)]
-    public string Payee { get; set; } = null!;
+    public string? Payee { get; set; }
 
     /// <summary>
     /// Card number

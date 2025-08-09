@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq.Expressions;
+using System.Reflection;
 using DocumentFormat.OpenXml.Spreadsheet;
 using ExcelImport.Converters.BuiltIn;
 
@@ -10,7 +11,6 @@ namespace ExcelImport.Converters;
 /// </summary>
 public abstract class TypeConverter
 {
-
     private static readonly ConcurrentDictionary<Type, TypeConverter> _converters = new();
     private static readonly ConcurrentDictionary<Type, Func<TypeConverter>> _factoryCache = new();
 
@@ -27,11 +27,37 @@ public abstract class TypeConverter
     }
 
     /// <summary>
+    /// Creates a the specified type converter
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public static TypeConverter CreateConverter(Type type)
+    {
+        if (_converters.TryGetValue(type, out var converter))
+        {
+            return converter;
+        }
+
+        ConstructorInfo? ctor = type.GetConstructor(Type.EmptyTypes);
+        if (!typeof(TypeConverter).IsAssignableFrom(type) || ctor == null || !ctor.IsPublic)
+        {
+            throw new ArgumentException($"Type {type} is not a valid converter type");
+        }
+
+        var creator = _factoryCache.GetOrAdd(type, CreateFactory);
+        var convertedType = creator();
+        _converters.TryAdd(type, convertedType);
+
+        return convertedType;
+    }
+
+    /// <summary>
     /// Creates a type converter for the specified type.
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public static TypeConverter CreateTypeConverter(Type type)
+    public static TypeConverter CreateDefaultTypeConverter(Type type)
     {
         var genericType = typeof(DefaultTypeConverter<>).MakeGenericType(type);
 
@@ -56,7 +82,7 @@ public abstract class TypeConverter
 
         return Expression.Lambda<Func<TypeConverter>>(castExpr).Compile();
     }
-
+       
     /// <summary>
     /// Gets the type converter for the specified type.
     /// <para If the converter does not exist, it will create a new one and cache it.</para>
@@ -79,7 +105,7 @@ public abstract class TypeConverter
             }
         }
 
-        var converterType = CreateTypeConverter(type);
+        var converterType = CreateDefaultTypeConverter(type);
 
         if (converterType != null)
         {

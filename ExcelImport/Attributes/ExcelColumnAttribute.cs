@@ -48,13 +48,7 @@ public class ExcelColumnAttribute : Attribute
     {
         if (ConverterType != null)
         {
-            ConstructorInfo? ctor = ConverterType.GetConstructor(Type.EmptyTypes);
-            if (!typeof(TypeConverter).IsAssignableFrom(ConverterType) || ctor == null || !ctor.IsPublic)
-            {
-                throw new ArgumentException($"Type {ConverterType} is not a valid converter type");
-            }
-
-            return (TypeConverter?)Activator.CreateInstance(ConverterType);
+           return TypeConverter.CreateConverter(ConverterType);
         }
 
         return null;

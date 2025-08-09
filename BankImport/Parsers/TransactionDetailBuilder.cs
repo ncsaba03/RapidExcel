@@ -85,9 +85,9 @@ public class TransactionDetailBuilder
             Date = bankTransaction.Date,
             Amount = -1 * bankTransaction.Amount,
             Currency = bankTransaction.Currency,
-            Payee = string.IsInterned("CIB BANK") ?? "CIB BANK",
-            City = string.IsInterned("Budapest") ?? "Budapest",
-            PayerId = string.IsInterned("CIB") ?? "CIB",
+            Payee = SpanHelpers.InternIfSafe("CIB BANK") ?? "CIB BANK",
+            City = SpanHelpers.InternIfSafe("Budapest") ?? "Budapest",
+            PayerId = SpanHelpers.InternIfSafe("CIB") ?? "CIB",
             IsExpense = bankTransaction.Amount < 0,
             IsIncome = false
         };
@@ -149,7 +149,7 @@ public class TransactionDetailBuilder
             Amount = -1 * bankTransaction.Amount,
             Currency = bankTransaction.Currency,
             AccountNumber = lineEnumerator.MoveNext() ? lineEnumerator.Current.ToString() : null,
-            Payee = lineEnumerator.MoveNext() ? lineEnumerator.Current.ToString() : "N/A",
+            Payee = lineEnumerator.MoveNext() ? lineEnumerator.Current.ToString() : null,
             IsExpense = bankTransaction.Amount < 0,
             IsIncome = bankTransaction.TransactionType.IsIncome(),
         };
@@ -173,7 +173,7 @@ public class TransactionDetailBuilder
     /// <param name="line"></param>
     private void SetCardAndDate(ReadOnlySpan<char> line)
     {
-        _detail.CardNumber = string.IsInterned(line[..19].ToString()) ?? string.Intern(line[..19].ToString());
+        _detail.CardNumber = SpanHelpers.InternIfSafe(line[..19]) ?? line[..19].ToString();
         _detail.Date = DateTime.ParseExact(line[20..35], "yyyyMMdd HHmmss", null);
     }
 
