@@ -24,9 +24,12 @@ public class ExcelImporter
         where T : new()
     {
         var properties = PropertyCache.GetCachedProperties(typeof(T));
-        var context = new ExcelImportContext(filePath);
+        using var context = new ExcelImportContext(filePath);
 
-        return ImportCore<T>(context, properties.ToDictionary(t => t.ColumnIdentifier), headerRowIndex);
+        foreach (var item in ImportCore<T>(context, properties.ToDictionary(t => t.ColumnIdentifier), headerRowIndex))
+        {
+            yield return item;
+        }
     }
 
     /// <summary>
@@ -116,8 +119,6 @@ public class ExcelImporter
                 yield return item;
             }
         }
-
-        context?.Dispose();
     }
 
     /// <summary>
@@ -126,7 +127,7 @@ public class ExcelImporter
     /// <param name="headerRow"></param>
     /// <param name="sharedStrings"></param>
     /// <returns></returns>
-    private Dictionary<string, string> GetHeaders(Row headerRow, SharedStringTable sharedStrings)
+    private Dictionary<string, string> GetHeaders(Row headerRow, SharedStringTable? sharedStrings)
     {
         var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
@@ -146,7 +147,7 @@ public class ExcelImporter
     /// <param name="cell"></param>
     /// <param name="sharedStrings"></param>
     /// <returns></returns>
-    private static string GetCellValue(Cell cell, SharedStringTable sharedStrings)
+    private static string GetCellValue(Cell cell, SharedStringTable? sharedStrings)
     {
         if (cell == null || cell.CellValue == null)
             return string.Empty;
@@ -156,7 +157,7 @@ public class ExcelImporter
             return cell.CellValue.Text;
         }
 
-        if (int.TryParse(cell.CellValue.Text, out var index))
+        if (sharedStrings != null && int.TryParse(cell.CellValue.Text, out var index) && index < sharedStrings.ChildElements.Count)
         {
             return sharedStrings.ChildElements[index].InnerText;
         }

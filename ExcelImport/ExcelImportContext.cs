@@ -25,8 +25,7 @@ public sealed class ExcelImportContext : IDisposable
             throw new InvalidOperationException("The Excel file does not contain a valid workbook part. Ensure the file is a valid Excel document.");
         WorksheetPart = WorkbookPart.WorksheetParts.FirstOrDefault() ??
             throw new InvalidOperationException("The Excel file does not contain a valid worksheet part. Ensure the file is a valid Excel document.");
-        SharedStrings = WorkbookPart.SharedStringTablePart?.SharedStringTable ??
-            throw new InvalidOperationException("The Excel file does not contain a valid shared string part. Ensure the file is a valid Excel document.");
+        SharedStrings = WorkbookPart.SharedStringTablePart?.SharedStringTable;
 
         var sheetDimension = GetSheetDimension();
         if (sheetDimension != null && sheetDimension.Reference is not null)
@@ -47,8 +46,9 @@ public sealed class ExcelImportContext : IDisposable
 
     /// <summary>
     /// Gets the SharedStringTable of the Excel document, which contains all shared strings used in the workbook.
+    /// Returns null if the document does not contain shared strings.
     /// </summary>
-    public SharedStringTable SharedStrings { get; }
+    public SharedStringTable? SharedStrings { get; }
 
     /// <summary>
     /// Gets the sheet ranges of the Excel document, which represents the dimensions of the worksheet.
