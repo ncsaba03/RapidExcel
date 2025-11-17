@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using ExcelImport.Converters;
 
+namespace ExcelImport.Attributes;
+
 internal class PropertyImportInfo
 {
     /// <summary>

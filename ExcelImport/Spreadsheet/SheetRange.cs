@@ -64,7 +64,12 @@ public struct SheetRange : IEquatable<SheetRange>, IComparable<SheetRange>, IEqu
     /// </summary>
     /// <param name="count"></param>
     /// <returns cref="SheetRange"></returns>
-    public SheetRange AddRowsToBegining(int count) => SetFrom(From.AddRows(count).ToString());
+    public SheetRange AddRowsToBegining(int count)
+    {
+        var @new = new SheetRange(From.AddRows(count).ToString(), To.AddRows(count).ToString());
+        Validate(@new);
+        return @new;
+    }
 
     /// <summary>
     /// Add rows to the end part of the range 
@@ -78,7 +83,12 @@ public struct SheetRange : IEquatable<SheetRange>, IComparable<SheetRange>, IEqu
     /// </summary>
     /// <param name="count"></param>
     /// <returns cref="SheetRange"></returns>
-    public SheetRange AddColumnsToBegining(int count) => SetFrom(From.AddColumns(count).ToString());
+    public SheetRange AddColumnsToBegining(int count)
+    {
+        var @new = new SheetRange(From.AddColumns(count).ToString(), To.AddColumns(count).ToString());
+        Validate(@new);
+        return @new;
+    }
 
     /// <summary>
     /// Add columns to the end part of the range 
@@ -182,7 +192,8 @@ public struct SheetRange : IEquatable<SheetRange>, IComparable<SheetRange>, IEqu
     /// <returns></returns>
     public bool IsInRange(SheetCell cell)
     {
-        return cell.CompareTo(From) >= 0 && cell.CompareTo(To) <= 0;
+        return cell.ColIndex >= From.ColIndex && cell.ColIndex <= To.ColIndex &&
+               cell.Row >= From.Row && cell.Row <= To.Row;
     }
 
     /// <summary>
@@ -238,8 +249,10 @@ public struct SheetRange : IEquatable<SheetRange>, IComparable<SheetRange>, IEqu
     public int CompareTo(SheetRange other)
     {
         var from = From.CompareTo(other.From);
-        var to = To.CompareTo(other.To);
-        return from - to;
+        if (from != 0)
+            return from;
+
+        return To.CompareTo(other.To);
     }
 
     /// <summary>

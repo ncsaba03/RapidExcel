@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using ExcelImport.Attributes;
 using ExcelImport.Exceptions;
 using ExcelImport.Package;
 using ExcelImport.Spreadsheet;

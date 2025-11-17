@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 using ExcelImport;
+using ExcelImport.Attributes;
 using ExcelImport.Exceptions;
 using ExcelImport.Spreadsheet;
 using ExcelImport.Utils;
@@ -20,13 +21,17 @@ public class ExcelImporter
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="ImportException"></exception>
-    public IEnumerable<T> Import<T>(string filePath, uint headerRowIndex = 0)
+    public IEnumerable<T> Import<T>(string filePath, uint headerRowIndex = 1)
         where T : new()
     {
         var properties = PropertyCache.GetCachedProperties(typeof(T));
         using var context = new ExcelImportContext(filePath);
+        if (headerRowIndex < 1)
+        {
+            throw new InvalidOperationException("Header row index must be greater than 0.");
+        }
 
-        foreach (var item in ImportCore<T>(context, properties.ToDictionary(t => t.ColumnIdentifier), headerRowIndex))
+        foreach (var item in ImportCore<T>(context, properties.ToDictionary(t => t.ColumnIdentifier,StringComparer.OrdinalIgnoreCase), headerRowIndex))
         {
             yield return item;
         }

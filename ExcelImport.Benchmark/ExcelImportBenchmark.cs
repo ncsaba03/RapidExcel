@@ -6,7 +6,7 @@ using BenchmarkDotNet.Jobs;
 namespace ExcelImport.Benchmarks
 {
     [MemoryDiagnoser]
-    [SimpleJob(RuntimeMoniker.Net80, launchCount: 2, warmupCount: 1)]
+    [SimpleJob(launchCount: 2, warmupCount: 1)]
     public class ExcelImportBenchmark
     {
         private readonly ExcelImporter _importer = new ExcelImporter();

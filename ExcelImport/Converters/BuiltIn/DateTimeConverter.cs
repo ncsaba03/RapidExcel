@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Globalization;
+using System.Runtime.CompilerServices;
 using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ExcelImport.Converters.BuiltIn;
@@ -26,7 +27,7 @@ internal class DateTimeConverter : TypeConverter<DateTime, string>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override DateTime Convert(string value)
     {
-        return DateTime.FromOADate(double.Parse(value));
+        return DateTime.FromOADate(double.Parse(value, CultureInfo.InvariantCulture));
     }
 
     /// <summary>

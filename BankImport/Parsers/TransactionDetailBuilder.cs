@@ -66,7 +66,6 @@ public class TransactionDetailBuilder
     /// <param name="bankTransaction"></param>
     /// <returns></returns>
     /// <exception cref="FormatException"></exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TransactionDetail ParseIncome(ReadOnlySpan<char> details, BankTransaction bankTransaction)
     {
         if (details.IsEmpty) throw new FormatException("Income data is missing");
@@ -78,7 +77,6 @@ public class TransactionDetailBuilder
     /// </summary>
     /// <param name="bankTransaction"></param>
     /// <returns></returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static TransactionDetail ParseBankFee(BankTransaction bankTransaction)
         => new TransactionDetail
         {
@@ -99,7 +97,6 @@ public class TransactionDetailBuilder
     /// <param name="bankTransaction"></param>
     /// <returns></returns>
     /// <exception cref="FormatException"></exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static TransactionDetail ParseTransfer(ReadOnlySpan<char> details, BankTransaction bankTransaction)
     {
         if (details.IsEmpty) throw new FormatException("Transfer data is missing");

@@ -18,6 +18,8 @@ public class ExcelColumnAttribute : Attribute
     /// <param name="required">Whether the property is mandatory</param>
     public ExcelColumnAttribute(string name, int position = -1, Type? typeConverter = null, bool required = false)
     {
+        ArgumentNullException.ThrowIfNull(name);
+
         Name = name;
         Position = position;
         ConverterType = typeConverter;

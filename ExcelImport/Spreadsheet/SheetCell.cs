@@ -11,7 +11,7 @@ public  struct SheetCell : IEquatable<SheetCell>, IComparable<SheetCell>
     /// <summary>
     /// Represents the columns identifier
     /// </summary>
-    public int ColIndex => SheetHelper.GetColumnIndex(Col);
+    public readonly int ColIndex => SheetHelper.GetColumnIndex(Col);
     
     /// <summary>
     /// Gets the columns identifier
@@ -116,9 +116,10 @@ public  struct SheetCell : IEquatable<SheetCell>, IComparable<SheetCell>
         if (other.Col == null || Col == null)
             return -1;
         var colDiff = string.Compare(Col, other.Col, StringComparison.Ordinal);
-        var rowDiff = Row.CompareTo(other.Row);
+        if (colDiff != 0)
+            return colDiff;
 
-        return colDiff - rowDiff;
+        return Row.CompareTo(other.Row);
     }
 
     #endregion
