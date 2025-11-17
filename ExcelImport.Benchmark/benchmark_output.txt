@@ -1,0 +1,600 @@
+D:\Work\ExcelImporter\ExcelImport\ExcelImporter.cs(99,55): warning CS8602: Dereference of a possibly null reference. [D:\Work\ExcelImporter\ExcelImport\ExcelImport.csproj]
+D:\Work\ExcelImporter\ExcelImport\ExcelImporter.cs(117,51): warning CS8602: Dereference of a possibly null reference. [D:\Work\ExcelImporter\ExcelImport\ExcelImport.csproj]
+// Validating benchmarks:
+// ***** BenchmarkRunner: Start   *****
+// ***** Found 4 benchmark(s) in total *****
+// ***** Building 1 exe(s) in Parallel: Start   *****
+// start dotnet  restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:ArtifactsPath="D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1/" /p:OutDir="D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0/" /p:OutputPath="D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0/" /p:PublishDir="D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\publish/" in D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1
+// command took 1.63 sec and exited with 0
+// start dotnet  build -c Release --no-restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true /p:ArtifactsPath="D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1/" /p:OutDir="D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0/" /p:OutputPath="D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0/" /p:PublishDir="D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\publish/" --output "D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0/" in D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1
+// command took 8.75 sec and exited with 0
+// ***** Done, took 00:00:10 (10.45 sec)   *****
+// Found 4 benchmarks:
+//   ExcelImportBenchmark.ImportTest: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+//   ExcelImportBenchmark.ImportTestWithParsing: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+//   ExcelImportBenchmark.ExportTestWithMulitpleSheets: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+//   ExcelImportBenchmark.ExportTest: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+
+Setup power plan (GUID: 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c FriendlyName: Teljesítménycentrikus)
+// **************************
+// Benchmark: ExcelImportBenchmark.ImportTest: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+// *** Execute ***
+// Launch: 1 / 2
+// Execute: dotnet ExcelImport.Benchmark-Job-WWHYXV-1.dll --anonymousPipes 1460 1692 --benchmarkName ExcelImport.Benchmarks.ExcelImportBenchmark.ImportTest --job "InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1" --benchmarkId 0 in D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 10.0.0 (10.0.25.52411), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX-512F+CD+BW+DQ+VL+VBMI,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+
+OverheadJitting  1: 1 op, 124700.00 ns, 124.7000 us/op
+WorkloadJitting  1: 1 op, 3935220800.00 ns, 3.9352 s/op
+
+OverheadWarmup   1: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadWarmup   2: 1 op, 1300.00 ns, 1.3000 us/op
+OverheadWarmup   3: 1 op, 1300.00 ns, 1.3000 us/op
+OverheadWarmup   4: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadWarmup   5: 1 op, 1100.00 ns, 1.1000 us/op
+
+OverheadActual   1: 1 op, 1700.00 ns, 1.7000 us/op
+OverheadActual   2: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadActual   3: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual   4: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   5: 1 op, 1400.00 ns, 1.4000 us/op
+OverheadActual   6: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual   7: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   8: 1 op, 1300.00 ns, 1.3000 us/op
+OverheadActual   9: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  10: 1 op, 1600.00 ns, 1.6000 us/op
+OverheadActual  11: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  12: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadActual  13: 1 op, 1700.00 ns, 1.7000 us/op
+OverheadActual  14: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  15: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual  16: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  17: 1 op, 1600.00 ns, 1.6000 us/op
+OverheadActual  18: 1 op, 1700.00 ns, 1.7000 us/op
+OverheadActual  19: 1 op, 1800.00 ns, 1.8000 us/op
+OverheadActual  20: 1 op, 1500.00 ns, 1.5000 us/op
+
+WorkloadWarmup   1: 1 op, 3912898800.00 ns, 3.9129 s/op
+
+// BeforeActualRun
+WorkloadActual   1: 1 op, 3910317600.00 ns, 3.9103 s/op
+WorkloadActual   2: 1 op, 3921410900.00 ns, 3.9214 s/op
+WorkloadActual   3: 1 op, 3910307000.00 ns, 3.9103 s/op
+WorkloadActual   4: 1 op, 3895287600.00 ns, 3.8953 s/op
+WorkloadActual   5: 1 op, 3947156200.00 ns, 3.9472 s/op
+WorkloadActual   6: 1 op, 3920936100.00 ns, 3.9209 s/op
+WorkloadActual   7: 1 op, 3992063200.00 ns, 3.9921 s/op
+WorkloadActual   8: 1 op, 4004610900.00 ns, 4.0046 s/op
+WorkloadActual   9: 1 op, 3977821000.00 ns, 3.9778 s/op
+WorkloadActual  10: 1 op, 4020837400.00 ns, 4.0208 s/op
+WorkloadActual  11: 1 op, 3975846600.00 ns, 3.9758 s/op
+WorkloadActual  12: 1 op, 3994521200.00 ns, 3.9945 s/op
+WorkloadActual  13: 1 op, 3948528700.00 ns, 3.9485 s/op
+WorkloadActual  14: 1 op, 4067562700.00 ns, 4.0676 s/op
+WorkloadActual  15: 1 op, 3931078300.00 ns, 3.9311 s/op
+
+// AfterActualRun
+WorkloadResult   1: 1 op, 3910316250.00 ns, 3.9103 s/op
+WorkloadResult   2: 1 op, 3921409550.00 ns, 3.9214 s/op
+WorkloadResult   3: 1 op, 3910305650.00 ns, 3.9103 s/op
+WorkloadResult   4: 1 op, 3895286250.00 ns, 3.8953 s/op
+WorkloadResult   5: 1 op, 3947154850.00 ns, 3.9472 s/op
+WorkloadResult   6: 1 op, 3920934750.00 ns, 3.9209 s/op
+WorkloadResult   7: 1 op, 3992061850.00 ns, 3.9921 s/op
+WorkloadResult   8: 1 op, 4004609550.00 ns, 4.0046 s/op
+WorkloadResult   9: 1 op, 3977819650.00 ns, 3.9778 s/op
+WorkloadResult  10: 1 op, 4020836050.00 ns, 4.0208 s/op
+WorkloadResult  11: 1 op, 3975845250.00 ns, 3.9758 s/op
+WorkloadResult  12: 1 op, 3994519850.00 ns, 3.9945 s/op
+WorkloadResult  13: 1 op, 3948527350.00 ns, 3.9485 s/op
+WorkloadResult  14: 1 op, 4067561350.00 ns, 4.0676 s/op
+WorkloadResult  15: 1 op, 3931076950.00 ns, 3.9311 s/op
+// GC:  241 1 0 2016486000 1
+// Threading:  0 0 1
+
+// AfterAll
+// Benchmark Process 27028 has exited with code 0.
+// Launch: 2 / 2
+// Execute: dotnet ExcelImport.Benchmark-Job-WWHYXV-1.dll --anonymousPipes 1760 1768 --benchmarkName ExcelImport.Benchmarks.ExcelImportBenchmark.ImportTest --job "InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1" --benchmarkId 0 in D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 10.0.0 (10.0.25.52411), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX-512F+CD+BW+DQ+VL+VBMI,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+
+OverheadJitting  1: 1 op, 131300.00 ns, 131.3000 us/op
+WorkloadJitting  1: 1 op, 4057747600.00 ns, 4.0577 s/op
+
+OverheadWarmup   1: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadWarmup   2: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadWarmup   3: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadWarmup   4: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadWarmup   5: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadWarmup   6: 1 op, 1100.00 ns, 1.1000 us/op
+
+OverheadActual   1: 1 op, 1200.00 ns, 1.2000 us/op
+OverheadActual   2: 1 op, 1600.00 ns, 1.6000 us/op
+OverheadActual   3: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   4: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   5: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   6: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual   7: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   8: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual   9: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  10: 1 op, 1800.00 ns, 1.8000 us/op
+OverheadActual  11: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  12: 1 op, 1200.00 ns, 1.2000 us/op
+OverheadActual  13: 1 op, 1300.00 ns, 1.3000 us/op
+OverheadActual  14: 1 op, 2300.00 ns, 2.3000 us/op
+OverheadActual  15: 1 op, 1200.00 ns, 1.2000 us/op
+OverheadActual  16: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadActual  17: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  18: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  19: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  20: 1 op, 1000.00 ns, 1.0000 us/op
+
+WorkloadWarmup   1: 1 op, 3991435100.00 ns, 3.9914 s/op
+
+// BeforeActualRun
+WorkloadActual   1: 1 op, 3977813500.00 ns, 3.9778 s/op
+WorkloadActual   2: 1 op, 3923094900.00 ns, 3.9231 s/op
+WorkloadActual   3: 1 op, 3931757400.00 ns, 3.9318 s/op
+WorkloadActual   4: 1 op, 3974391000.00 ns, 3.9744 s/op
+WorkloadActual   5: 1 op, 4041800600.00 ns, 4.0418 s/op
+WorkloadActual   6: 1 op, 3955349200.00 ns, 3.9553 s/op
+WorkloadActual   7: 1 op, 3979395800.00 ns, 3.9794 s/op
+WorkloadActual   8: 1 op, 4035329000.00 ns, 4.0353 s/op
+WorkloadActual   9: 1 op, 3971418700.00 ns, 3.9714 s/op
+WorkloadActual  10: 1 op, 3906002300.00 ns, 3.9060 s/op
+WorkloadActual  11: 1 op, 3940817700.00 ns, 3.9408 s/op
+WorkloadActual  12: 1 op, 3979512600.00 ns, 3.9795 s/op
+WorkloadActual  13: 1 op, 4058053400.00 ns, 4.0581 s/op
+WorkloadActual  14: 1 op, 3963880200.00 ns, 3.9639 s/op
+WorkloadActual  15: 1 op, 3991651200.00 ns, 3.9917 s/op
+
+// AfterActualRun
+WorkloadResult   1: 1 op, 3977812450.00 ns, 3.9778 s/op
+WorkloadResult   2: 1 op, 3923093850.00 ns, 3.9231 s/op
+WorkloadResult   3: 1 op, 3931756350.00 ns, 3.9318 s/op
+WorkloadResult   4: 1 op, 3974389950.00 ns, 3.9744 s/op
+WorkloadResult   5: 1 op, 4041799550.00 ns, 4.0418 s/op
+WorkloadResult   6: 1 op, 3955348150.00 ns, 3.9553 s/op
+WorkloadResult   7: 1 op, 3979394750.00 ns, 3.9794 s/op
+WorkloadResult   8: 1 op, 4035327950.00 ns, 4.0353 s/op
+WorkloadResult   9: 1 op, 3971417650.00 ns, 3.9714 s/op
+WorkloadResult  10: 1 op, 3906001250.00 ns, 3.9060 s/op
+WorkloadResult  11: 1 op, 3940816650.00 ns, 3.9408 s/op
+WorkloadResult  12: 1 op, 3979511550.00 ns, 3.9795 s/op
+WorkloadResult  13: 1 op, 3963879150.00 ns, 3.9639 s/op
+WorkloadResult  14: 1 op, 3991650150.00 ns, 3.9917 s/op
+// GC:  241 1 0 2016486000 1
+// Threading:  0 0 1
+
+// AfterAll
+// Benchmark Process 19268 has exited with code 0.
+
+Mean = 3.965 s, StdErr = 0.008 s (0.20%), N = 29, StdDev = 0.043 s
+Min = 3.895 s, Q1 = 3.931 s, Median = 3.971 s, Q3 = 3.992 s, Max = 4.068 s
+IQR = 0.061 s, LowerFence = 3.840 s, UpperFence = 4.083 s
+ConfidenceInterval = [3.936 s; 3.995 s] (CI 99.9%), Margin = 0.030 s (0.75% of Mean)
+Skewness = 0.4, Kurtosis = 2.43, MValue = 2
+
+// ** Remained 3 (75,0%) benchmark(s) to run. Estimated finish 2025-11-17 1:57 (0h 9m from now) **
+Setup power plan (GUID: 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c FriendlyName: Teljesítménycentrikus)
+// **************************
+// Benchmark: ExcelImportBenchmark.ImportTestWithParsing: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+// *** Execute ***
+// Launch: 1 / 2
+// Execute: dotnet ExcelImport.Benchmark-Job-WWHYXV-1.dll --anonymousPipes 1448 2044 --benchmarkName ExcelImport.Benchmarks.ExcelImportBenchmark.ImportTestWithParsing --job "InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1" --benchmarkId 1 in D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 10.0.0 (10.0.25.52411), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX-512F+CD+BW+DQ+VL+VBMI,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+
+OverheadJitting  1: 1 op, 170200.00 ns, 170.2000 us/op
+WorkloadJitting  1: 1 op, 4212139500.00 ns, 4.2121 s/op
+
+OverheadWarmup   1: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadWarmup   2: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadWarmup   3: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadWarmup   4: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadWarmup   5: 1 op, 900.00 ns, 900.0000 ns/op
+
+OverheadActual   1: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual   2: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual   3: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   4: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   5: 1 op, 1600.00 ns, 1.6000 us/op
+OverheadActual   6: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   7: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   8: 1 op, 1200.00 ns, 1.2000 us/op
+OverheadActual   9: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  10: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual  11: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  12: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  13: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadActual  14: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  15: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  16: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  17: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  18: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual  19: 1 op, 1600.00 ns, 1.6000 us/op
+OverheadActual  20: 1 op, 1100.00 ns, 1.1000 us/op
+
+WorkloadWarmup   1: 1 op, 4154794200.00 ns, 4.1548 s/op
+
+// BeforeActualRun
+WorkloadActual   1: 1 op, 4156901000.00 ns, 4.1569 s/op
+WorkloadActual   2: 1 op, 4139237900.00 ns, 4.1392 s/op
+WorkloadActual   3: 1 op, 4127678300.00 ns, 4.1277 s/op
+WorkloadActual   4: 1 op, 4246426800.00 ns, 4.2464 s/op
+WorkloadActual   5: 1 op, 4146152700.00 ns, 4.1462 s/op
+WorkloadActual   6: 1 op, 4149436200.00 ns, 4.1494 s/op
+WorkloadActual   7: 1 op, 4122289100.00 ns, 4.1223 s/op
+WorkloadActual   8: 1 op, 4143493800.00 ns, 4.1435 s/op
+WorkloadActual   9: 1 op, 4146072300.00 ns, 4.1461 s/op
+WorkloadActual  10: 1 op, 4133770500.00 ns, 4.1338 s/op
+WorkloadActual  11: 1 op, 4237266900.00 ns, 4.2373 s/op
+WorkloadActual  12: 1 op, 4112141700.00 ns, 4.1121 s/op
+WorkloadActual  13: 1 op, 4127301000.00 ns, 4.1273 s/op
+WorkloadActual  14: 1 op, 4189697100.00 ns, 4.1897 s/op
+WorkloadActual  15: 1 op, 4125869500.00 ns, 4.1259 s/op
+
+// AfterActualRun
+WorkloadResult   1: 1 op, 4156900000.00 ns, 4.1569 s/op
+WorkloadResult   2: 1 op, 4139236900.00 ns, 4.1392 s/op
+WorkloadResult   3: 1 op, 4127677300.00 ns, 4.1277 s/op
+WorkloadResult   4: 1 op, 4146151700.00 ns, 4.1462 s/op
+WorkloadResult   5: 1 op, 4149435200.00 ns, 4.1494 s/op
+WorkloadResult   6: 1 op, 4122288100.00 ns, 4.1223 s/op
+WorkloadResult   7: 1 op, 4143492800.00 ns, 4.1435 s/op
+WorkloadResult   8: 1 op, 4146071300.00 ns, 4.1461 s/op
+WorkloadResult   9: 1 op, 4133769500.00 ns, 4.1338 s/op
+WorkloadResult  10: 1 op, 4112140700.00 ns, 4.1121 s/op
+WorkloadResult  11: 1 op, 4127300000.00 ns, 4.1273 s/op
+WorkloadResult  12: 1 op, 4189696100.00 ns, 4.1897 s/op
+WorkloadResult  13: 1 op, 4125868500.00 ns, 4.1259 s/op
+// GC:  274 1 0 2298103720 1
+// Threading:  0 0 1
+
+// AfterAll
+// Benchmark Process 10676 has exited with code 0.
+// Launch: 2 / 2
+// Execute: dotnet ExcelImport.Benchmark-Job-WWHYXV-1.dll --anonymousPipes 1792 1860 --benchmarkName ExcelImport.Benchmarks.ExcelImportBenchmark.ImportTestWithParsing --job "InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1" --benchmarkId 1 in D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 10.0.0 (10.0.25.52411), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX-512F+CD+BW+DQ+VL+VBMI,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+
+OverheadJitting  1: 1 op, 139100.00 ns, 139.1000 us/op
+WorkloadJitting  1: 1 op, 4256613000.00 ns, 4.2566 s/op
+
+OverheadWarmup   1: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadWarmup   2: 1 op, 1800.00 ns, 1.8000 us/op
+OverheadWarmup   3: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadWarmup   4: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadWarmup   5: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadWarmup   6: 1 op, 1000.00 ns, 1.0000 us/op
+
+OverheadActual   1: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   2: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual   3: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   4: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   5: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   6: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   7: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   8: 1 op, 1200.00 ns, 1.2000 us/op
+OverheadActual   9: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  10: 1 op, 1300.00 ns, 1.3000 us/op
+OverheadActual  11: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  12: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadActual  13: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadActual  14: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  15: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadActual  16: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  17: 1 op, 1400.00 ns, 1.4000 us/op
+OverheadActual  18: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  19: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  20: 1 op, 1100.00 ns, 1.1000 us/op
+
+WorkloadWarmup   1: 1 op, 4270625400.00 ns, 4.2706 s/op
+
+// BeforeActualRun
+WorkloadActual   1: 1 op, 4207843800.00 ns, 4.2078 s/op
+WorkloadActual   2: 1 op, 4229504000.00 ns, 4.2295 s/op
+WorkloadActual   3: 1 op, 4253110500.00 ns, 4.2531 s/op
+WorkloadActual   4: 1 op, 4200204500.00 ns, 4.2002 s/op
+WorkloadActual   5: 1 op, 4281285200.00 ns, 4.2813 s/op
+WorkloadActual   6: 1 op, 4233059500.00 ns, 4.2331 s/op
+WorkloadActual   7: 1 op, 4216682200.00 ns, 4.2167 s/op
+WorkloadActual   8: 1 op, 4202702500.00 ns, 4.2027 s/op
+WorkloadActual   9: 1 op, 4261559200.00 ns, 4.2616 s/op
+WorkloadActual  10: 1 op, 4243594300.00 ns, 4.2436 s/op
+WorkloadActual  11: 1 op, 4230428900.00 ns, 4.2304 s/op
+WorkloadActual  12: 1 op, 4244107000.00 ns, 4.2441 s/op
+WorkloadActual  13: 1 op, 4229379500.00 ns, 4.2294 s/op
+WorkloadActual  14: 1 op, 4242422800.00 ns, 4.2424 s/op
+WorkloadActual  15: 1 op, 4219290600.00 ns, 4.2193 s/op
+
+// AfterActualRun
+WorkloadResult   1: 1 op, 4207842900.00 ns, 4.2078 s/op
+WorkloadResult   2: 1 op, 4229503100.00 ns, 4.2295 s/op
+WorkloadResult   3: 1 op, 4253109600.00 ns, 4.2531 s/op
+WorkloadResult   4: 1 op, 4200203600.00 ns, 4.2002 s/op
+WorkloadResult   5: 1 op, 4281284300.00 ns, 4.2813 s/op
+WorkloadResult   6: 1 op, 4233058600.00 ns, 4.2331 s/op
+WorkloadResult   7: 1 op, 4216681300.00 ns, 4.2167 s/op
+WorkloadResult   8: 1 op, 4202701600.00 ns, 4.2027 s/op
+WorkloadResult   9: 1 op, 4261558300.00 ns, 4.2616 s/op
+WorkloadResult  10: 1 op, 4243593400.00 ns, 4.2436 s/op
+WorkloadResult  11: 1 op, 4230428000.00 ns, 4.2304 s/op
+WorkloadResult  12: 1 op, 4244106100.00 ns, 4.2441 s/op
+WorkloadResult  13: 1 op, 4229378600.00 ns, 4.2294 s/op
+WorkloadResult  14: 1 op, 4242421900.00 ns, 4.2424 s/op
+WorkloadResult  15: 1 op, 4219289700.00 ns, 4.2193 s/op
+// GC:  274 1 0 2298103496 1
+// Threading:  0 0 1
+
+// AfterAll
+// Benchmark Process 31584 has exited with code 0.
+
+Mean = 4.190 s, StdErr = 0.010 s (0.23%), N = 28, StdDev = 0.052 s
+Min = 4.112 s, Q1 = 4.142 s, Median = 4.201 s, Q3 = 4.231 s, Max = 4.281 s
+IQR = 0.089 s, LowerFence = 4.009 s, UpperFence = 4.364 s
+ConfidenceInterval = [4.154 s; 4.226 s] (CI 99.9%), Margin = 0.036 s (0.86% of Mean)
+Skewness = -0.01, Kurtosis = 1.44, MValue = 2
+
+// ** Remained 2 (50,0%) benchmark(s) to run. Estimated finish 2025-11-17 1:57 (0h 6m from now) **
+Setup power plan (GUID: 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c FriendlyName: Teljesítménycentrikus)
+// **************************
+// Benchmark: ExcelImportBenchmark.ExportTestWithMulitpleSheets: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+// *** Execute ***
+// Launch: 1 / 2
+// Execute: dotnet ExcelImport.Benchmark-Job-WWHYXV-1.dll --anonymousPipes 2024 1932 --benchmarkName ExcelImport.Benchmarks.ExcelImportBenchmark.ExportTestWithMulitpleSheets --job "InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1" --benchmarkId 2 in D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 10.0.0 (10.0.25.52411), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX-512F+CD+BW+DQ+VL+VBMI,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+
+OverheadJitting  1: 1 op, 137300.00 ns, 137.3000 us/op
+WorkloadJitting  1: 1 op, 3805079600.00 ns, 3.8051 s/op
+
+OverheadWarmup   1: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadWarmup   2: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadWarmup   3: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadWarmup   4: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadWarmup   5: 1 op, 1300.00 ns, 1.3000 us/op
+OverheadWarmup   6: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadWarmup   7: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadWarmup   8: 1 op, 800.00 ns, 800.0000 ns/op
+
+OverheadActual   1: 1 op, 1400.00 ns, 1.4000 us/op
+OverheadActual   2: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   3: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   4: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   5: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual   6: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   7: 1 op, 1200.00 ns, 1.2000 us/op
+OverheadActual   8: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   9: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  10: 1 op, 1300.00 ns, 1.3000 us/op
+OverheadActual  11: 1 op, 1200.00 ns, 1.2000 us/op
+OverheadActual  12: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  13: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  14: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  15: 1 op, 1700.00 ns, 1.7000 us/op
+OverheadActual  16: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  17: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadActual  18: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  19: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  20: 1 op, 1000.00 ns, 1.0000 us/op
+
+WorkloadWarmup   1: 1 op, 3424548600.00 ns, 3.4245 s/op
+
+// BeforeActualRun
+WorkloadActual   1: 1 op, 3447689900.00 ns, 3.4477 s/op
+WorkloadActual   2: 1 op, 3426112700.00 ns, 3.4261 s/op
+WorkloadActual   3: 1 op, 3420492900.00 ns, 3.4205 s/op
+WorkloadActual   4: 1 op, 3423904000.00 ns, 3.4239 s/op
+WorkloadActual   5: 1 op, 3428171400.00 ns, 3.4282 s/op
+WorkloadActual   6: 1 op, 3416026700.00 ns, 3.4160 s/op
+WorkloadActual   7: 1 op, 3417416600.00 ns, 3.4174 s/op
+WorkloadActual   8: 1 op, 3400441600.00 ns, 3.4004 s/op
+WorkloadActual   9: 1 op, 3492893900.00 ns, 3.4929 s/op
+WorkloadActual  10: 1 op, 3458057100.00 ns, 3.4581 s/op
+WorkloadActual  11: 1 op, 3426884000.00 ns, 3.4269 s/op
+WorkloadActual  12: 1 op, 3424362100.00 ns, 3.4244 s/op
+WorkloadActual  13: 1 op, 3429809700.00 ns, 3.4298 s/op
+WorkloadActual  14: 1 op, 3456108300.00 ns, 3.4561 s/op
+WorkloadActual  15: 1 op, 3412477100.00 ns, 3.4125 s/op
+
+// AfterActualRun
+WorkloadResult   1: 1 op, 3447688900.00 ns, 3.4477 s/op
+WorkloadResult   2: 1 op, 3426111700.00 ns, 3.4261 s/op
+WorkloadResult   3: 1 op, 3420491900.00 ns, 3.4205 s/op
+WorkloadResult   4: 1 op, 3423903000.00 ns, 3.4239 s/op
+WorkloadResult   5: 1 op, 3428170400.00 ns, 3.4282 s/op
+WorkloadResult   6: 1 op, 3416025700.00 ns, 3.4160 s/op
+WorkloadResult   7: 1 op, 3417415600.00 ns, 3.4174 s/op
+WorkloadResult   8: 1 op, 3400440600.00 ns, 3.4004 s/op
+WorkloadResult   9: 1 op, 3458056100.00 ns, 3.4581 s/op
+WorkloadResult  10: 1 op, 3426883000.00 ns, 3.4269 s/op
+WorkloadResult  11: 1 op, 3424361100.00 ns, 3.4244 s/op
+WorkloadResult  12: 1 op, 3429808700.00 ns, 3.4298 s/op
+WorkloadResult  13: 1 op, 3456107300.00 ns, 3.4561 s/op
+WorkloadResult  14: 1 op, 3412476100.00 ns, 3.4125 s/op
+// GC:  285 1 1 2787032744 1
+// Threading:  0 0 1
+
+// AfterAll
+// Benchmark Process 19688 has exited with code 0.
+// Launch: 2 / 2
+// Execute: dotnet ExcelImport.Benchmark-Job-WWHYXV-1.dll --anonymousPipes 1448 2044 --benchmarkName ExcelImport.Benchmarks.ExcelImportBenchmark.ExportTestWithMulitpleSheets --job "InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1" --benchmarkId 2 in D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 10.0.0 (10.0.25.52411), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX-512F+CD+BW+DQ+VL+VBMI,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+
+OverheadJitting  1: 1 op, 124400.00 ns, 124.4000 us/op
+WorkloadJitting  1: 1 op, 3750028600.00 ns, 3.7500 s/op
+
+OverheadWarmup   1: 1 op, 1400.00 ns, 1.4000 us/op
+OverheadWarmup   2: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadWarmup   3: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadWarmup   4: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadWarmup   5: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadWarmup   6: 1 op, 900.00 ns, 900.0000 ns/op
+
+OverheadActual   1: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   2: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual   3: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadActual   4: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   5: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   6: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual   7: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   8: 1 op, 1400.00 ns, 1.4000 us/op
+OverheadActual   9: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  10: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadActual  11: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  12: 1 op, 1600.00 ns, 1.6000 us/op
+OverheadActual  13: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  14: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadActual  15: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  16: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual  17: 1 op, 1200.00 ns, 1.2000 us/op
+OverheadActual  18: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  19: 1 op, 1100.00 ns, 1.1000 us/op
+OverheadActual  20: 1 op, 1000.00 ns, 1.0000 us/op
+
+WorkloadWarmup   1: 1 op, 3388105100.00 ns, 3.3881 s/op
+
+// BeforeActualRun
+WorkloadActual   1: 1 op, 3398518000.00 ns, 3.3985 s/op
+WorkloadActual   2: 1 op, 3391526000.00 ns, 3.3915 s/op
+WorkloadActual   3: 1 op, 3434597300.00 ns, 3.4346 s/op
+WorkloadActual   4: 1 op, 3438566100.00 ns, 3.4386 s/op
+WorkloadActual   5: 1 op, 3450900800.00 ns, 3.4509 s/op
+WorkloadActual   6: 1 op, 3389436800.00 ns, 3.3894 s/op
+WorkloadActual   7: 1 op, 3375416400.00 ns, 3.3754 s/op
+WorkloadActual   8: 1 op, 3381482700.00 ns, 3.3815 s/op
+WorkloadActual   9: 1 op, 3431116900.00 ns, 3.4311 s/op
+WorkloadActual  10: 1 op, 3415459400.00 ns, 3.4155 s/op
+WorkloadActual  11: 1 op, 3388162200.00 ns, 3.3882 s/op
+WorkloadActual  12: 1 op, 3438386900.00 ns, 3.4384 s/op
+WorkloadActual  13: 1 op, 3390261500.00 ns, 3.3903 s/op
+WorkloadActual  14: 1 op, 3399342100.00 ns, 3.3993 s/op
+WorkloadActual  15: 1 op, 3375649800.00 ns, 3.3756 s/op
+
+// AfterActualRun
+WorkloadResult   1: 1 op, 3398517000.00 ns, 3.3985 s/op
+WorkloadResult   2: 1 op, 3391525000.00 ns, 3.3915 s/op
+WorkloadResult   3: 1 op, 3434596300.00 ns, 3.4346 s/op
+WorkloadResult   4: 1 op, 3438565100.00 ns, 3.4386 s/op
+WorkloadResult   5: 1 op, 3450899800.00 ns, 3.4509 s/op
+WorkloadResult   6: 1 op, 3389435800.00 ns, 3.3894 s/op
+WorkloadResult   7: 1 op, 3375415400.00 ns, 3.3754 s/op
+WorkloadResult   8: 1 op, 3381481700.00 ns, 3.3815 s/op
+WorkloadResult   9: 1 op, 3431115900.00 ns, 3.4311 s/op
+WorkloadResult  10: 1 op, 3415458400.00 ns, 3.4155 s/op
+WorkloadResult  11: 1 op, 3388161200.00 ns, 3.3882 s/op
+WorkloadResult  12: 1 op, 3438385900.00 ns, 3.4384 s/op
+WorkloadResult  13: 1 op, 3390260500.00 ns, 3.3903 s/op
+WorkloadResult  14: 1 op, 3399341100.00 ns, 3.3993 s/op
+WorkloadResult  15: 1 op, 3375648800.00 ns, 3.3756 s/op
+// GC:  285 1 1 2787032744 1
+// Threading:  0 0 1
+
+// AfterAll
+// Benchmark Process 4732 has exited with code 0.
+
+Mean = 3.417 s, StdErr = 0.004 s (0.13%), N = 29, StdDev = 0.024 s
+Min = 3.375 s, Q1 = 3.399 s, Median = 3.420 s, Q3 = 3.431 s, Max = 3.458 s
+IQR = 0.033 s, LowerFence = 3.350 s, UpperFence = 3.480 s
+ConfidenceInterval = [3.401 s; 3.433 s] (CI 99.9%), Margin = 0.016 s (0.48% of Mean)
+Skewness = -0.11, Kurtosis = 1.91, MValue = 2
+
+// ** Remained 1 (25,0%) benchmark(s) to run. Estimated finish 2025-11-17 1:57 (0h 3m from now) **
+Setup power plan (GUID: 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c FriendlyName: Teljesítménycentrikus)
+// **************************
+// Benchmark: ExcelImportBenchmark.ExportTest: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+// *** Execute ***
+// Launch: 1 / 2
+// Execute: dotnet ExcelImport.Benchmark-Job-WWHYXV-1.dll --anonymousPipes 1912 1716 --benchmarkName ExcelImport.Benchmarks.ExcelImportBenchmark.ExportTest --job "InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1" --benchmarkId 3 in D:\Work\ExcelImporter\ExcelImport.Benchmark\bin\Release\net10.0\ExcelImport.Benchmark-Job-WWHYXV-1\bin\Release\net10.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// BenchmarkDotNet v0.15.2
+// Runtime=.NET 10.0.0 (10.0.25.52411), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
+// GC=Concurrent Workstation
+// HardwareIntrinsics=AVX-512F+CD+BW+DQ+VL+VBMI,AES,BMI1,BMI2,FMA,LZCNT,PCLMUL,POPCNT VectorSize=256
+// Job: Job-WWHYXV(InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1)
+
+OverheadJitting  1: 1 op, 132800.00 ns, 132.8000 us/op
+WorkloadJitting  1: 1 op, 3881307200.00 ns, 3.8813 s/op
+
+OverheadWarmup   1: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadWarmup   2: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadWarmup   3: 1 op, 1400.00 ns, 1.4000 us/op
+OverheadWarmup   4: 1 op, 1500.00 ns, 1.5000 us/op
+OverheadWarmup   5: 1 op, 1300.00 ns, 1.3000 us/op
+OverheadWarmup   6: 1 op, 1400.00 ns, 1.4000 us/op
+OverheadWarmup   7: 1 op, 900.00 ns, 900.0000 ns/op
+
+OverheadActual   1: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   2: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   3: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   4: 1 op, 700.00 ns, 700.0000 ns/op
+OverheadActual   5: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadActual   6: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadActual   7: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual   8: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual   9: 1 op, 1700.00 ns, 1.7000 us/op
+OverheadActual  10: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  11: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadActual  12: 1 op, 900.00 ns, 900.0000 ns/op
+OverheadActual  13: 1 op, 1400.00 ns, 1.4000 us/op
+OverheadActual  14: 1 op, 700.00 ns, 700.0000 ns/op
+OverheadActual  15: 1 op, 1200.00 ns, 1.2000 us/op
+OverheadActual  16: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadActual  17: 1 op, 1600.00 ns, 1.6000 us/op
+OverheadActual  18: 1 op, 1000.00 ns, 1.0000 us/op
+OverheadActual  19: 1 op, 800.00 ns, 800.0000 ns/op
+OverheadActual  20: 1 op, 800.00 ns, 800.0000 ns/op
+
+WorkloadWarmup   1: 1 op, 3538548600.00 ns, 3.5385 s/op
+
+// BeforeActualRun
+WorkloadActual   1: 1 op, 3574182700.00 ns, 3.5742 s/op
+WorkloadActual   2: 1 op, 3537653900.00 ns, 3.5377 s/op
+WorkloadActual   3: 1 op, 3533243700.00 ns, 3.5332 s/op
+WorkloadActual   4: 1 op, 3545262100.00 ns, 3.5453 s/op
+WorkloadActual   5: 1 op, 3585910400.00 ns, 3.5859 s/op
+No Workload Results were obtained from the run.
+// Benchmark Process 31640 has exited with code 143.
+
+// ** Remained 0 (0,0%) benchmark(s) to run. Estimated finish 2025-11-17 1:54 (0h 0m from now) **
