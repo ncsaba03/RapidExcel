@@ -27,7 +27,7 @@ public static class SpanHelpers
     }
 
     /// <summary>
-    /// Parses a decimal number from a <see cref="ReadOnlySpan{char}"/>. This method is optimized to avoid heap allocations.
+    /// Parses a decimal number from a <see cref="System.ReadOnlySpan{T}"/> of char. This method is optimized to avoid heap allocations.
     /// </summary>
     /// <param name="input"></param>
     /// <param name="result"></param>

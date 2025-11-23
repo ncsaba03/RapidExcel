@@ -199,7 +199,7 @@ public struct SheetRange : IEquatable<SheetRange>, IComparable<SheetRange>, IEqu
     /// <summary>
     /// Checks if the given cell is in the range
     /// </summary>
-    /// <param name="cell"></param>
+    /// <param name="cellString"></param>
     /// <returns></returns>
     public bool IsInRange(ReadOnlySpan<char> cellString)
     {

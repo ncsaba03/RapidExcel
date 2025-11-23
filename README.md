@@ -1,27 +1,24 @@
-﻿# ExcelImporter
+﻿# RapidExcel
+![RapidExcel Logo](icon.png)
 
-A high-performance very lightweight Excel import/export library for .NET 8, designed for processing large datasets efficiently using OpenXml and modern C# features.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)](https://dotnet.microsoft.com/)
+[![Build](https://github.com/ncsaba03/ExcelImporter/actions/workflows/publish-nuget.yml/badge.svg)](https://github.com/ncsaba03/ExcelImporter/actions)
 
-## 🚀 Performance
+A very lightweight Excel import/export library for .NET 8+, designed for processing large datasets efficiently using OpenXml and modern C# features.
 
-- **80,000+ rows/sec** import speed
-- **90,000+ rows/sec** export speed  
-- **445,000 rows** processed in ~10.4 seconds (import + export)
 
-## ✨ Features
+##  Features
 
 - **Custom type converters** with attribute-based configuration
 - **Streaming processing** for memory-efficient large file handling
 - **Thread-safe property caching** with reflection optimization
-- **Custom enumerators** for allocation-free string operations
-- **OpenXML streaming** for optimal performance
-
-## 🎯 Use Cases
+- **Easy to Use**: Intuitive attributes and type converters make Excel processing straightforward
+  
+##  Use Cases
 
 - Financial data processing (bank statements, transactions)
 - Large dataset imports/exports
-- Performance-critical applications
-- Memory-constrained environments
 - Enterprise-scale data processing
 
 ## 📦 Installation
@@ -35,7 +32,7 @@ cd ExcelImporter
 dotnet build -c Release
 ```
 
-## 🔧 Quick Start
+##  Quick Start
 
 ### Define Your Model 
 
@@ -43,29 +40,29 @@ dotnet build -c Release
 //for import
 public class BankTransaction
 {
-    [ExcelColumn("DÁTUM")]
+    [ExcelColumn("Date of Transaction")]
     public DateTime Date { get; set; }
     
-    [ExcelColumn("TRANZAKCIÓTÍPUS", typeConverter: typeof(TransactionTypeConverter))]
+    [ExcelColumn("TRANSTYPE", typeConverter: typeof(TransactionTypeConverter))]
     public TransactionType TransactionType { get; set; }
     
-    [ExcelColumn("KÖZLEMÉNY")]
+    [ExcelColumn("DESCR")]
     public string Description { get; set; } = string.Empty;
 
-    [ExcelColumn("ÖSSZEG")]
+    [ExcelColumn("AMOUNT")]
     public decimal Amount { get; set; }
 
-    [ExcelColumn("DEVIZANEM")]
+    [ExcelColumn("CUR")]
     public string Currency { get; set; } = string.Empty;
 }
 
 //for export
 public record TransactionDetail
 {
-    [ExcelColumn("Dátum", position: 1)]
+    [ExcelColumn("Date of Transaction", position: 1)]
     public DateTime Date { get; set; }
 
-    [ExcelColumn("Megnevezés", position: 3)]
+    [ExcelColumn("Description", position: 3)]
     public string? Payee { get; set; }
 
     [ExcelColumn("KH", position: 2, typeConverter: typeof(CardNumberConverter))]
@@ -73,7 +70,7 @@ public record TransactionDetail
 
     public string? AccountNumber { get; set; }
 
-    [ExcelColumn("Összeg", typeConverter: typeof(AmountConverter), position: 4)]
+    [ExcelColumn("Amount", typeConverter: typeof(AmountConverter), position: 4)]
     public decimal Amount { get; set; }
 
     [ExcelColumn("Deviza", position: 5)]
@@ -85,10 +82,10 @@ public record TransactionDetail
 
     public string? City { get; set; }
 
-    [ExcelColumn("Kiadás", position: 6)]
+    [ExcelColumn("IsExpense", position: 6)]
     public bool IsExpense { get; set; }
 
-    [ExcelColumn("Jövedelem", position: 7)]
+    [ExcelColumn("IsIncome", position: 7)]
     public bool IsIncome { get; set; }
 }
 ```
@@ -122,7 +119,7 @@ var sheetData = transactions
 exporter.ExportSheetsWithWriter(sheetData, "monthly_report.xlsx");
 ```
 
-## 🔄 Custom Type Converters
+##  Custom Type Converters
 
 Create custom converters for complex data transformations:
 
@@ -133,9 +130,9 @@ public class TransactionTypeConverter : TypeConverter<TransactionType, string>
     {
         return value switch
         {
-            "KÁRTYATRANZAKCIÓ" => TransactionType.Card,
-            "ÁTUTALÁS" => TransactionType.Transfer,
-            "DÍJ, KAMAT" => TransactionType.BankFeeOrInterest,
+            "BCARD" => TransactionType.Card,
+            "TRANSFER" => TransactionType.Transfer,
+            "FEE" => TransactionType.BankFeeOrInterest,
             _ => TransactionType.Unknown
         };
     }
@@ -184,37 +181,7 @@ Runtime=.NET 8.0  LaunchCount=2  WarmupCount=1
 | **Export Multi-Sheet** | **103,500** | 2.80 GB | 1K | Monthly sheets organization |
 | **Export Single** | **101,200** | 2.80 GB | 1K | Single large worksheet |
 
-
-## 🏗️ Architecture
-
-### Custom Enumerators
-
-```csharp
-// SpanSplitEnumerator for allocation-free string splitting
-public ref struct SpanSplitEnumerator
-{
-    private ReadOnlySpan<char> _span;
-    private readonly char _separator;
-    // Zero heap allocation string splitting
-}
-```
-
-### Property Caching
-
-```csharp
-// Thread-safe reflection caching with expression trees
-private static readonly ConcurrentDictionary<Type, List<PropertyImportInfo>> _propertyCache = new();
-
-// Compiled factory methods for performance
-private static Func<TypeConverter> CreateFactory(Type type)
-{
-    var ctor = type.GetConstructor(Type.EmptyTypes);
-    var newExpr = Expression.New(ctor);
-    return Expression.Lambda<Func<TypeConverter>>(newExpr).Compile();
-}
-```
-
-## 🧪 Advanced Usage
+## Example
 
 ### Complex Transaction Parsing
 
@@ -230,27 +197,12 @@ var detail = TransactionDetailBuilder.Parse(bankTransaction);
 // - Transaction IDs and references
 ```
 
-### Memory-Efficient Processing
-
-```csharp
-// Stream processing for large files
-using var context = new ExcelImportContext(filePath);
-using var reader = OpenXmlReader.Create(context.WorksheetPart);
-
-// Yield return for lazy enumeration
-public IEnumerable<T> Import<T>(string filePath) where T : new()
-{
-    // Process row by row without loading entire file
-    yield return item;
-}
-```
-
-## 🛠️ Requirements
+##  Requirements
 
 - .NET 8.0+
 - DocumentFormat.OpenXml 3.3.0+
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 ExcelImporter/
@@ -270,4 +222,4 @@ ExcelImporter/
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-**Built with ❤️ for performance and efficiency**
+**Built with ❤️** 

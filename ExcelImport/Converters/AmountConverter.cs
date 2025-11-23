@@ -3,6 +3,14 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ExcelImport.Converters;
 
+/// <summary>
+/// Provides conversion between string representations and decimal values for Excel cell data, using invariant culture
+/// formatting.
+/// </summary>
+/// <remarks>This converter is intended for use with Excel cells that store numeric amounts. It ensures that
+/// decimal values are parsed and formatted consistently, regardless of locale, by using invariant culture. The
+/// associated cell type is set to number, and the style index corresponds to the standard decimal format in
+/// Excel.</remarks>
 public class AmountConverter : TypeConverter<decimal, string>
 {
     /// <summary>

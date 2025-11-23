@@ -85,7 +85,7 @@ public abstract class TypeConverter
        
     /// <summary>
     /// Gets the type converter for the specified type.
-    /// <para If the converter does not exist, it will create a new one and cache it.</para>
+    ///  If the converter does not exist, it will create a new one and cache it.
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>

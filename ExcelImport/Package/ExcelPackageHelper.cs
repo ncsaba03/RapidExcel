@@ -27,13 +27,18 @@ internal static class ExcelPackageHelper
     }
 
     /// <summary>
-    /// Create a new worksheet in the given spreadsheet
+    /// Adds a new worksheet to the specified spreadsheet document with the given name and identifier.
     /// </summary>
-    /// <param name="spreadsheet"></param>
-    /// <param name="sheetData"></param>
-    /// <param name="sheetName"></param>
-    /// <param name="sheetId"></param>
-    /// <param name="sheetRange"></param>
+    /// <remarks>This method appends the worksheet to the workbook's sheet collection. If the workbook does not
+    /// already contain a sheet collection, one is created. The caller is responsible for ensuring that the sheet name and
+    /// identifier are unique within the workbook.</remarks>
+    /// <param name="spreadsheet">The spreadsheet document to which the worksheet will be added. Must not be null and must contain a valid workbook
+    /// part.</param>
+    /// <param name="worksheetPart">The worksheet part representing the worksheet to add. Must not be null and must be associated with the specified
+    /// spreadsheet document.</param>
+    /// <param name="sheetName">The name to assign to the new worksheet. Must not be null or empty; should be unique within the workbook.</param>
+    /// <param name="sheetId">The unique identifier for the new worksheet within the workbook. Must be a positive integer and not conflict with
+    /// existing sheet identifiers.</param>
     internal static void AddWorksheet(SpreadsheetDocument spreadsheet, WorksheetPart worksheetPart, string sheetName, uint sheetId)
     {
         var workbookPart = spreadsheet.WorkbookPart!;

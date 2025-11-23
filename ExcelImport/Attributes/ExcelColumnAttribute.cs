@@ -46,6 +46,10 @@ public class ExcelColumnAttribute : Attribute
     /// </summary>
     public bool Required { get; set; }
 
+    /// <summary>
+    /// Creates a <see cref="TypeConverter"/> instance for the specified converter type, if available.
+    /// </summary>
+    /// <returns>A <see cref="TypeConverter"/> instance for <c>ConverterType</c> if it is set; otherwise, <see langword="null"/>.</returns>
     public TypeConverter? CreateConverter()
     {
         if (ConverterType != null)

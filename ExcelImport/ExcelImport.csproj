@@ -1,17 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<!-- NuGet Package Metadata -->
+		<PackageId>RapidExcel</PackageId>
+		<PackageVersion>0.0.2</PackageVersion>		
+		<Version>0.0.2</Version>
+		<Authors>Nagy Csaba</Authors>
+		<Company>Nagy Csaba</Company>
+		<Description>Excel import/export library for .NET with custom type converters, and streaming support for large datasets.</Description>
+		<Copyright>Copyright © 2025 Nagy Csaba</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/ncsaba03/ExcelImporter</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/ncsaba03/ExcelImporter</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>;performance;excel import;excel export;openxml;dotnet;csharp</PackageTags>		
+		<PackageReleaseNotes>Initial release with core import/export functionality and performance optimizations.</PackageReleaseNotes>
+		<PackageIcon>icon.png</PackageIcon>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <InternalsVisibleTo Include="ExcelImport.Test" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="icon.png" Pack="true" PackagePath=""/>
+		<None Include="..\README.md" Pack="true" PackagePath=""/>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<InternalsVisibleTo Include="ExcelImport.Test" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+	</ItemGroup>
 
 </Project>
