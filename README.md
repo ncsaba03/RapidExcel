@@ -12,7 +12,6 @@ A very lightweight Excel import/export library for .NET 8+, designed for process
 
 - **Custom type converters** with attribute-based configuration
 - **Streaming processing** for memory-efficient large file handling
-- **Thread-safe property caching** with reflection optimization
 - **Easy to Use**: Intuitive attributes and type converters make Excel processing straightforward
   
 ##  Use Cases
@@ -21,16 +20,15 @@ A very lightweight Excel import/export library for .NET 8+, designed for process
 - Large dataset imports/exports
 - Enterprise-scale data processing
 
-## 📦 Installation
-
+##  Installation
 ```bash
-# Clone the repository
-git clone https://github.com/ncsaba03/ExcelImporter.git
-cd ExcelImporter
+# Install via NuGet Package Manager
+dotnet add package RapidExcel
 
-# Build the solution
-dotnet build -c Release
+# Or via Package Manager Console (Visual Studio)
+Install-Package RapidExcel
 ```
+
 
 ##  Quick Start
 
