@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using BankImport.Model;
 using DocumentFormat.OpenXml.Spreadsheet;
-using ExcelImport.Converters;
+using RapidExcel.Converters;
 
 namespace BankImport.Converters;
 

@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
-using BankImport.Model;
-using BankImport.Parsers;
-using ExcelImport;
+using Example.Test;
+using RapidExcel;
 
-string filePath = "C:\\test\\test500k.xlsx";
+string filePath = "C:\\test\\all_time_best.xlsx";
 string exportPath = "C:\\test\\testexport.xlsx";
 
 if (args.Length > 0)
@@ -12,17 +11,15 @@ if (args.Length > 0)
     exportPath = args[1] ?? exportPath;
 }
 
-
 Stopwatch stopwatch = new Stopwatch();
 stopwatch.Start();
 int count = 0;
 var importer = new ExcelImporter();
-var transactions = new List<TransactionDetail>(445_000);
+var charts = new List<Charts>(445_000);
 
-foreach (var item in importer.Import<BankTransaction>(filePath, 10))
+foreach (var item in importer.Import<Charts>(filePath, 1))
 {
-    var detail = TransactionDetailBuilder.Parse(item);
-    transactions.Add(detail);
+    charts.Add(item);
     count++;
 }
 
@@ -30,12 +27,12 @@ Console.WriteLine("Total imported data:{0} Elapsed: {1} ms", count, stopwatch.El
 Console.ReadKey();
 stopwatch.Restart();
 
-var toExport = transactions.OrderBy(t => t.Date).GroupBy(t => new { sheetName = t.Date.ToString("yyyy MMMM") })
+var toExport = charts.OrderBy(t => t.DateOfChart).GroupBy(t => new { sheetName = t.DateOfChart.ToString("yyyy MMMM") })
     .Select(g => (g.Key.sheetName, g.ToList()))
     .ToList();
 var exporter = new ExcelExporter();
 
-exporter.ExportSheetsWithWriter(toExport, exportPath);
+exporter.ExportSheets(toExport, exportPath);
 Console.WriteLine("Total exported data:{0} Elapsed: {1} ms", count, stopwatch.ElapsedMilliseconds);
 Console.ReadKey();
 

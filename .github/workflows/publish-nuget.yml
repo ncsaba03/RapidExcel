@@ -33,10 +33,10 @@ jobs:
       run: dotnet build --configuration Release --no-restore
       
     - name: Run tests
-      run: dotnet test ExcelImport.Test/ExcelImport.Test.csproj --configuration Release --verbosity normal
+      run: dotnet test RapidExcel.Test/RapidExcel.Test.csproj --configuration Release --verbosity normal
       
     - name: Pack NuGet package
-      run: dotnet pack ExcelImport/ExcelImport.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
+      run: dotnet pack RapidExcel/RapidExcel.csproj --configuration Release --no-build --output ./artifacts /p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
       
     - name: NuGet login (Trusted Publishing - OIDC)
       uses: NuGet/login@v1

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BankImport\BankImport.csproj" />
+    <ProjectReference Include="..\RapidExcel\RapidExcel.csproj" />
   </ItemGroup>
 
 </Project>

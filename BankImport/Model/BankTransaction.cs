@@ -1,5 +1,5 @@
 ﻿using BankImport.Converters;
-using ExcelImport.Attributes;
+using RapidExcel.Attributes;
 
 namespace BankImport.Model;
 

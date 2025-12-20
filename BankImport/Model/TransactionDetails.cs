@@ -1,6 +1,6 @@
 ﻿using BankImport.Converters;
-using ExcelImport.Attributes;
-using ExcelImport.Converters;
+using RapidExcel.Attributes;
+using RapidExcel.Converters;
 
 namespace BankImport.Model;
 

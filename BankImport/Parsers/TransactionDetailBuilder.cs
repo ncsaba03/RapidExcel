@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using BankImport.Model;
-using ExcelImport.Utils;
+using RapidExcel.Utils;
 
 namespace BankImport.Parsers;
 
