@@ -1,10 +1,10 @@
-﻿using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Spreadsheet;
-using RapidExcel;
+﻿using System.Xml;
 using RapidExcel.Attributes;
 using RapidExcel.Exceptions;
 using RapidExcel.Spreadsheet;
 using RapidExcel.Utils;
+
+namespace RapidExcel;
 
 /// <summary>
 /// Imports data from an Excel file 
@@ -16,8 +16,8 @@ public class ExcelImporter
     /// Imports the data from the Excel file.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="filePath"></param>
-    /// <param name="headerRowIndex"></param>
+    /// <param name="filePath">The filepath</param>
+    /// <param name="headerRowIndex">The index of the header row</param>
     /// <returns></returns>
     /// <exception cref="InvalidOperationException"></exception>
     /// <exception cref="ImportException"></exception>
@@ -31,142 +31,168 @@ public class ExcelImporter
             throw new InvalidOperationException("Header row index must be greater than 0.");
         }
 
-        foreach (var item in ImportCore<T>(context, properties.ToDictionary(t => t.ColumnIdentifier,StringComparer.OrdinalIgnoreCase), headerRowIndex))
+        var attributes = properties.ToDictionary(p => p.ColumnIdentifier, StringComparer.OrdinalIgnoreCase);
+
+        foreach (var item in ImportCoreSax<T>(context, attributes, headerRowIndex))
         {
             yield return item;
         }
     }
 
     /// <summary>
-    /// Imports the data from the worksheet.
+    /// SAX-based import implementation
     /// </summary>
-    /// <typeparam name="T"></typeparam> 
-    /// <param name="context"></param>
-    /// <param name="attributes"></param>    
-    /// <param name="headerRowIndex"></param>
-    /// <returns></returns>
-    /// <exception cref="ImportException"></exception>
-    private IEnumerable<T> ImportCore<T>(ExcelImportContext context, IReadOnlyDictionary<string, PropertyImportInfo> attributes, uint headerRowIndex)
-        where T : new()
+    private IEnumerable<T> ImportCoreSax<T>(ExcelImportContext context, IReadOnlyDictionary<string, PropertyImportInfo> attributes, uint headerRowIndex)
+         where T : new()
     {
         var headerMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        using var reader = XmlReader.Create(context.WorksheetPart.GetStream());
 
-        uint rowindex = 0;
-        using var reader = OpenXmlReader.Create(context.WorksheetPart);
         while (reader.Read())
         {
-            if (reader.ElementType == typeof(Row) && reader.IsStartElement)
+            if (reader.NodeType != XmlNodeType.Element || reader.LocalName != "row")
             {
-                if (reader.LoadCurrentElement() is not Row row || (row.RowIndex?.Value ?? headerRowIndex) < headerRowIndex)
+                continue;
+            }           
+
+            uint? rowIndex = uint.TryParse(reader.GetAttribute("r"), out var currentRowIndex) ? currentRowIndex : null;
+            if (!rowIndex.HasValue)
+            {
+                continue;
+            }
+
+            if (currentRowIndex < headerRowIndex)
+            {
+                continue;
+            }
+
+            T? currentItem = default;
+
+            if (currentRowIndex > headerRowIndex)
+            {
+                currentItem = new T();
+            }
+
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "row")
                 {
-                    continue;
+                    break;
                 }
 
-                if (row.RowIndex?.Value == headerRowIndex)
+                if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "c")
                 {
-                    headerMap = GetHeaders(row, context);
-                    continue;
-                }
+                    var cellReference = reader.GetAttribute("r") ?? string.Empty;
+                    var value = GetCellValue(reader, context);
+                    var colIndex = SheetHelper.GetColumnIndexFromCellReference(cellReference).ToString();
 
-                rowindex++;
-                var item = new T();
-
-                foreach (var cell in row.Elements<Cell>())
-                {
-                    var col = SheetHelper.GetColumnIndexFromCellReference(cell.CellReference!.Value).ToString();
-                    var value = GetCellValue(cell, context);
-
-                    if (!headerMap.TryGetValue(col, out var headerName))
+                    if (currentRowIndex == headerRowIndex)
                     {
-                        continue;
-                    }
-
-                    if (!attributes.TryGetValue(headerName, out var prop))
-                    {
-                        continue;
-                    }
-
-                    if (!headerName.Equals(prop.ColumnIdentifier, StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-
-                    if (prop.Property.PropertyType == typeof(string))
-                    {
-                        if (prop.Required && value.AsSpan().IsEmpty)
+                        if (string.IsNullOrWhiteSpace(value))
                         {
-                            var message = $"{prop.ColumnIdentifier} is required!";
-                            throw new ImportException(cell.CellReference.Value ?? string.Empty, message);
+                            continue;
                         }
 
-                        prop.Property.SetValue(item, value);
-
+                        headerMap[colIndex] = value;
                         continue;
                     }
 
-                    object? convertedValue = null;
-
-                    if (prop.TypeConverter is not null)
+                    if (currentItem != null && headerMap.TryGetValue(colIndex, out var headerName))
                     {
-                        convertedValue = prop.TypeConverter.Convert(value);
+                        SetProperty(currentItem, headerName, value, cellReference, attributes);
                     }
-
-                    if (prop.Required && convertedValue is null)
-                    {
-                        var message = $"{prop.ColumnIdentifier} is required!";
-                        throw new ImportException(cell.CellReference.Value ?? string.Empty, message);
-                    }
-
-                    prop.Property.SetValue(item, convertedValue);
-
                 }
+            }
 
-                yield return item;
+            if (currentItem != null)
+            {
+                yield return currentItem;
+                currentItem = default;
             }
         }
     }
 
     /// <summary>
-    /// Gets the headers from the first row of the worksheet.
+    /// Gets the cell value from the XML reader
     /// </summary>
-    /// <param name="headerRow"></param>
-    /// <param name="context"></param>
+    /// <param name="reader">XmlReader</param>
+    /// <param name="context">ExcelImportContext</param>
     /// <returns></returns>
-    private Dictionary<string, string> GetHeaders(Row headerRow, ExcelImportContext context)
-    {
-        var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    private static string GetCellValue(XmlReader reader, ExcelImportContext context)
+    {        
+        bool isSharedString = reader.GetAttribute("t") == "s";
+        string rawValue = string.Empty;
 
-        foreach (var cell in headerRow.Elements<Cell>())
+        if (reader.IsEmptyElement)
         {
-            var column = SheetHelper.GetColumnIndexFromCellReference(cell.CellReference?.Value ?? "").ToString();
-            var value = GetCellValue(cell, context);
-            headers[column] = value;
+            return rawValue;
         }
 
-        return headers;
+        while (reader.Read())
+        {
+            if (reader.NodeType == XmlNodeType.EndElement && reader.LocalName == "c")
+            {
+                break;
+            }
+
+            if (reader.NodeType == XmlNodeType.Element &&
+               (reader.LocalName == "v" || reader.LocalName == "t"))
+            {
+                if (reader.IsEmptyElement) continue;
+
+                if (reader.Read())
+                {
+                    if (reader.NodeType is XmlNodeType.Text or
+                                           XmlNodeType.CDATA or
+                                           XmlNodeType.Whitespace)
+                    {
+                        rawValue = reader.Value;
+                    }
+                }
+            }
+        }
+
+        return isSharedString && int.TryParse(rawValue, out int id) ? context.GetSharedString(id) : rawValue;
+
     }
 
     /// <summary>
-    /// Gets the cell value from the cell.
+    /// Sets the property value on the item
     /// </summary>
-    /// <param name="cell"></param>
-    /// <param name="context"></param>
-    /// <returns></returns>
-    private static string GetCellValue(Cell cell, ExcelImportContext context)
+    /// <typeparam name="T">Type</typeparam>
+    /// <param name="item">The item</param>
+    /// <param name="headerName">The name of header</param>
+    /// <param name="value">The value</param>
+    /// <param name="cellRef">The reference of the cell</param>
+    /// <param name="attributes">The attribute cache</param>
+    /// <exception cref="ImportException"></exception>
+    private static void SetProperty<T>(T item, string headerName, string value, string cellRef, IReadOnlyDictionary<string, PropertyImportInfo> attributes)
     {
-        if (cell == null || cell.CellValue == null)
-            return string.Empty;
+        if (!attributes.TryGetValue(headerName, out var prop)) return;
+        if (!headerName.Equals(prop.ColumnIdentifier, StringComparison.OrdinalIgnoreCase)) return;
 
-        if (cell.DataType?.Value != CellValues.SharedString)
+        if (prop.Property.PropertyType == typeof(string))
         {
-            return cell.CellValue.Text;
+            if (prop.Required && string.IsNullOrWhiteSpace(value))
+            {
+                throw new ImportException(cellRef, $"{prop.ColumnIdentifier} is required!");
+            }
+            prop.Property.SetValue(item, value);
+            return;
         }
 
-        if (int.TryParse(cell.CellValue.Text, out var index))
+        object? convertedValue = null;
+        if (prop.TypeConverter is not null)
         {
-            return context.GetSharedString(index);
+            convertedValue = prop.TypeConverter.Convert(value);
         }
 
-        return cell.CellValue.Text;
+        if (prop.Required && convertedValue is null)
+        {
+            throw new ImportException(cellRef, $"{prop.ColumnIdentifier} is required!");
+        }
+
+        prop.Property.SetValue(item, convertedValue);
     }
 }
+

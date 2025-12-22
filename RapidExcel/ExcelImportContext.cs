@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml;
+﻿using System.Xml;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using RapidExcel.Spreadsheet;
@@ -67,8 +68,7 @@ public sealed class ExcelImportContext : IDisposable
     public SheetRange? SheetRanges { get; }
 
     /// <summary>
-    /// Gets a shared string by its index with O(1) complexity after initial scan.
-    /// This is significantly faster than accessing SharedStringTable.Elements().ElementAt(index).
+    /// Gets a shared string by its index with O(1) complexity after initial scan.    
     /// </summary>
     /// <param name="index">The zero-based index of the shared string.</param>
     /// <returns>The shared string at the specified index.</returns>
@@ -89,12 +89,18 @@ public sealed class ExcelImportContext : IDisposable
     /// <returns></returns>
     private SheetDimension? GetSheetDimension()
     {
-        using var xmlReader = OpenXmlReader.Create(WorksheetPart);
+        using var xmlReader = XmlReader.Create(WorksheetPart.GetStream());
         while (xmlReader.Read())
         {
-            if (xmlReader.ElementType == typeof(SheetDimension) && xmlReader.IsStartElement)
-            {
-                return xmlReader.LoadCurrentElement() as SheetDimension;
+            if (xmlReader.NodeType == XmlNodeType.Element && xmlReader.LocalName == "dimension")
+            {             
+                var rangeRef = xmlReader.GetAttribute("ref");
+
+                if (rangeRef != null)
+                {
+                    return new SheetDimension { Reference = rangeRef };
+                }
+                break;
             }
         }
         return null;

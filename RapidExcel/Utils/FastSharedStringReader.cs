@@ -200,7 +200,8 @@ internal sealed class FastSharedStringReader : IDisposable
     /// <summary>
     /// Reads a shared string item from the XmlReader
     /// </summary>
-    /// <param name="reader"></param>
+    /// <param name="reader">the xml reader</param>
+    /// <param name="sb">string builder</param>
     /// <returns></returns>
     private static string ReadSharedStringItem(XmlReader reader, StringBuilder sb)
     {
