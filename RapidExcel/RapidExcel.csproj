@@ -6,8 +6,9 @@
 		<Nullable>enable</Nullable>
 		<!-- NuGet Package Metadata -->
 		<PackageId>RapidExcel</PackageId>
-		<PackageVersion>0.0.2</PackageVersion>		
-		<Version>0.0.2</Version>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageVersion>0.0.5</PackageVersion>		
+		<Version>0.0.5</Version>
 		<Authors>Nagy Csaba</Authors>
 		<Company>Nagy Csaba</Company>
 		<Description>Excel import/export library for .NET with custom type converters, and streaming support for large datasets.</Description>
@@ -27,7 +28,7 @@
 
 	<ItemGroup>
 		<None Include="icon.png" Pack="true" PackagePath="" />
-		<None Include="..\README.md" Pack="true" PackagePath="" />
+		<None Include="README.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<ItemGroup>

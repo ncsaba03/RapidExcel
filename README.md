@@ -144,40 +144,54 @@ public class TransactionTypeConverter : TypeConverter<TransactionType, string>
 
 ## 📊 Performance Benchmarks
 
-### Real-World Performance (445,060 records)
+### Real-World Performance (349,495 records)
 
-Quick performance overview using `Stopwatch` timing:
+Quick performance overview using `Stopwatch` timing on **all_time_best.xlsx** (music charts, large SST):
 
-| Operation | Time | Rows/sec | Description |
-|-----------|------|----------|-------------|
-| **Import** | 5.5s | **80,700** | Pure Excel reading |
-| **Export** | 4.7s | **94,500** | Excel file generation |
-| **Round-trip** | 10.2s | **43,600** | Complete import + export cycle |
+| Operation | Time | Rows/sec | Notes |
+|-----------|------|----------|-------|
+| **Import (cold start)** | 2.2s | **158,000** | First run, no JIT/cache warmup |
+| **Import (warm)** | 1.6s | **214,000** | Second run, JIT optimized |
+| **Export Multi-Sheet (cold)** | 2.7s | **129,000** | First export, cold start |
+| **Export Single (warm)** | 1.6s | **222,000** | Second export, optimized |
+
+*Cold start = first run without JIT/cache optimization, Warm = subsequent runs*
+
 ### Detailed BenchmarkDotNet Analysis
 
-BenchmarkDotNet measured on **Intel i7-11700K @ 3.60GHz**, **.NET 8.0**, **Release build**:
+BenchmarkDotNet measured on **Intel i7-11700K @ 3.60GHz**, **.NET 10.0**, **Release build**:
 
 ```
-BenchmarkDotNet v0.15.2, Windows 11
-11th Gen Intel(R) Core(TM) i7-11700K @ 3.60GHz (3.60 GHz)
-Runtime=.NET 8.0  LaunchCount=2  WarmupCount=1  
+BenchmarkDotNet v0.15.6, Windows 11 (10.0.26200.7462)
+11th Gen Intel Core i7-11700K 3.60GHz, 1 CPU, 16 logical and 8 physical cores
+.NET SDK 10.0.101
+Runtime: .NET 10.0.1, X64 RyuJIT x86-64-v4
+InvocationCount=1, LaunchCount=2, UnrollFactor=1, WarmupCount=1
 ```
 
-| Method                       | Mean    | Error    | StdDev   | Median  | Gen0        | Gen1      | Gen2      | Allocated |
-|----------------------------- |--------:|---------:|---------:|--------:|------------:|----------:|----------:|----------:|
-| ImportTest                   | 3.449 s | 0.0117 s | 0.0160 s | 3.440 s | 247000.0000 | 1000.0000 |         - |   1.93 GB |
-| ImportTestWithParsing        | 3.573 s | 0.0098 s | 0.0138 s | 3.578 s | 281000.0000 | 1000.0000 |         - |   2.19 GB |
-| ExportTestWithMulitpleSheets | 4.301 s | 0.0199 s | 0.0299 s | 4.293 s | 312000.0000 | 1000.0000 | 1000.0000 |    2.8 GB |
-| ExportTest                   | 4.398 s | 0.0436 s | 0.0596 s | 4.359 s | 312000.0000 | 1000.0000 | 1000.0000 |    2.8 GB |
+| Method                       | Mean       | Error    | StdDev   | Gen0        | Gen1      | Gen2      | Allocated  |
+|----------------------------- |-----------:|---------:|---------:|------------:|----------:|----------:|-----------:|
+| ImportTest                   |   932.2 ms |  2.55 ms |  3.57 ms |  55000.0000 |         - |         - |  443.43 MB |
+| ImportTestWithParsing        | 1,122.6 ms |  7.40 ms | 10.85 ms |  89000.0000 |         - |         - |  711.95 MB |
+| ExportTestWithMulitpleSheets | 3,267.9 ms | 12.04 ms | 16.08 ms | 285000.0000 | 1000.0000 | 1000.0000 | 2657.92 MB |
+| ExportTest                   | 3,363.1 ms | 18.00 ms | 31.04 ms | 286000.0000 | 1000.0000 | 1000.0000 |  2658.9 MB |
 
 #### Performance Summary
 
 | Operation | Rows/sec | Memory | Gen2 | Description |
 |-----------|----------|--------|------|-------------|
-| **Import Only** | **129,000** | 1.93 GB | 0 | Zero-allocation parsing |
-| **Import + Parse** | **124,600** | 2.19 GB | 0 | Complex financial extraction |
-| **Export Multi-Sheet** | **103,500** | 2.80 GB | 1K | Monthly sheets organization |
-| **Export Single** | **101,200** | 2.80 GB | 1K | Single large worksheet |
+| **Import Only** | **477,400** | 443 MB | 0 | Streaming Excel parsing with SST optimization |
+| **Import + Parse** | **396,500** | 712 MB | 0 | Complex financial data extraction |
+| **Export Multi-Sheet** | **136,200** | 2.66 GB | 1K | Monthly sheets organization |
+| **Export Single** | **132,300** | 2.66 GB | 1K | Single large worksheet |
+
+**Performance Improvements** (SST Optimization - commit 200ab52):
+- Import: **3.7x faster** (3.4s → 0.93s), **77% less memory** (1.93 GB → 443 MB)
+- Export: **1.3x faster** (4.3s → 3.3s), **5% less memory** (2.8 GB → 2.66 GB)
+
+**Key Optimization:** Replaced OpenXmlReader with manual XmlReader + O(1) SST lookups with pre-indexed SST.
+- Before: O(N) SST lookups with object allocation
+- After: Memory-mapped SST index with streaming XML parsing
 
 ## Example
 
